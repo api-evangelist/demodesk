@@ -1,0 +1,41 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/demodesk-v1-openapi.json, openapi/demodesk-v2-openapi.yml
+docs: https://demodesk.com/api/docs/index.html
+summary:
+  types:
+  - apiKey
+  - http
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_note: >-
+    OAuth2 (authorization_code + PKCE S256, scope mcp:tools) backs the hosted MCP
+    server at https://demodesk.com/mcp. See scopes/demodesk-scopes.yml and
+    well-known/demodesk-oauth-authorization-server.json. The REST API itself uses
+    Bearer API keys.
+schemes:
+- name: api-key
+  type: apiKey
+  in: header
+  parameter: api-key
+  sources:
+  - openapi/demodesk-v1-openapi.json
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: API key or OAuth token
+  description: |-
+    Pass your API key or OAuth token as a Bearer token in the `Authorization` HTTP header.
+
+    ```
+    curl -H "Authorization: Bearer [example key]" https://demodesk.com/api/v2/recordings
+    ```
+
+    **Obtaining a key:** Generate an API key in your Demodesk account under
+    *Settings > Integrations > Other*.
+
+    **Permissions:** The key inherits the permissions of the user who created it.
+    So when trying to access resource
+  sources:
+  - openapi/demodesk-v2-openapi.yml
