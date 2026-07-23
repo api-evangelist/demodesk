@@ -1,0 +1,330 @@
+openapi: 3.0.1
+info:
+  title: API V1 Externally recorded demos Users API
+  version: v1
+  description: Endpoints regarding user management.
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: demodesk.com
+tags:
+- name: Users
+  description: Endpoints regarding user management.
+paths:
+  /me:
+    get:
+      tags:
+      - Users
+      operationId: getCurrentUser
+      x-mcp:
+        enabled: true
+        toolName: users_get_me
+        title: Get current user
+        description: 'Resolve who is authenticated for this API key or OAuth token.
+
+          Typical use case: disambiguating prompts like "my meetings" and obtaining the current user''s id/email for follow-up filtering.
+
+          Returns the authenticated user''s core profile fields.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 5000
+      summary: Get current user
+      description: 'Returns the user represented by the provided API key or OAuth token.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      responses:
+        '200':
+          description: Current user fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/current-user-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /users:
+    get:
+      tags:
+      - Users
+      operationId: listUsers
+      x-mcp:
+        enabled: true
+        toolName: users_list
+        title: List users
+        description: 'List active users visible to the authenticated user.
+
+          Typical use case: selecting or resolving teammates by name/email before filtering recordings or assigning follow-up actions. It can also be used to confirm that users exist when given a specific email address.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 5000
+      summary: List users
+      description: 'Returns active users visible to the authenticated user.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Users fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users-index-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  schemas:
+    error-response:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          - requestId
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+    users-index-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/user-list-item'
+        meta:
+          type: object
+          required:
+          - hasNext
+          - limit
+          properties:
+            hasNext:
+              type: boolean
+            limit:
+              type: integer
+            nextCursor:
+              type:
+              - string
+              - 'null'
+    user-list-item:
+      type: object
+      required:
+      - id
+      - firstName
+      - lastName
+      - email
+      - role
+      - locale
+      - timeZone
+      properties:
+        id:
+          type: string
+          description: Internal user id.
+          examples:
+          - '12345'
+        firstName:
+          type: string
+          description: First name of the user.
+          examples:
+          - Max
+        lastName:
+          type: string
+          description: Last name of the user.
+          examples:
+          - Mustermann
+        email:
+          type: string
+          format: email
+          description: Primary email of the user.
+          examples:
+          - max@example.com
+        role:
+          type: string
+          description: Role of the user within the company.
+          enum:
+          - user
+          - manager
+          - company_admin
+        locale:
+          type: string
+          description: Locale of the user.
+          examples:
+          - en
+        timeZone:
+          type: string
+          description: IANA time zone of the user.
+          examples:
+          - Europe/Berlin
+    current-user-item:
+      type: object
+      required:
+      - id
+      - firstName
+      - lastName
+      - email
+      - role
+      - locale
+      - timeZone
+      - groups
+      properties:
+        id:
+          type: string
+          description: Internal user id.
+          examples:
+          - '12345'
+        firstName:
+          type: string
+          description: First name of the authenticated user.
+          examples:
+          - Max
+        lastName:
+          type: string
+          description: Last name of the authenticated user.
+          examples:
+          - Mustermann
+        email:
+          type: string
+          format: email
+          description: Primary email of the authenticated user.
+          examples:
+          - max@example.com
+        role:
+          type: string
+          description: Role of the authenticated user within the company.
+          enum:
+          - user
+          - manager
+          - company_admin
+        locale:
+          type: string
+          description: Locale of the authenticated user.
+          examples:
+          - en
+        timeZone:
+          type: string
+          description: IANA time zone of the authenticated user.
+          examples:
+          - Europe/Berlin
+        groups:
+          type: array
+          description: Groups the authenticated user belongs to.
+          items:
+            $ref: '#/components/schemas/recording-group-item'
+    current-user-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/current-user-item'
+    recording-group-item:
+      type: object
+      required:
+      - groupId
+      - groupName
+      properties:
+        groupId:
+          type: string
+          description: Internal group ID as string.
+          examples:
+          - '456'
+        groupName:
+          type: string
+          description: Name of the group.
+          examples:
+          - Enterprise Sales
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Opaque cursor returned by a previous list response.
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      required: false
+      description: Page size for recordings list.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    search:
+      name: search
+      in: query
+      required: false
+      description: 'Case-insensitive partial search across full name and email.
+
+        '
+      examples:
+        byName:
+          summary: Search by name
+          value: max
+        byEmail:
+          summary: Search by email
+          value: mustermann@example.com
+      schema:
+        type: string
+  responses:
+    bad-request:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    too-many-requests:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next request is allowed.
+          schema:
+            type: integer
+    unauthorized:
+      description: API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+  securitySchemes:
+    api-key:
+      type: apiKey
+      name: api-key
+      in: header

@@ -1,0 +1,1465 @@
+openapi: 3.0.1
+info:
+  title: API V1 Externally recorded demos Recordings API
+  version: v1
+  description: Endpoints to discover recordings and fetch related artifacts.
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: demodesk.com
+tags:
+- name: Recordings
+  description: Endpoints to discover recordings and fetch related artifacts.
+paths:
+  /recordings:
+    get:
+      tags:
+      - Recordings
+      operationId: listRecordings
+      x-mcp:
+        enabled: true
+        toolName: recordings_list
+        title: List recordings
+        description: 'Find meeting recordings visible to the authenticated Demodesk user.
+
+          Typical use case: searching, filtering, or browsing calls (for example: "show last week''s meetings", "find calls where I talked to Daniel").
+
+          Prefer dedicated people filters over internal ids: `host_eq`, `host_in`, `attendee_eq`, `attendee_in`.
+
+          Person filter values support an email address or `me` (resolves to authenticated user).
+
+          Examples: `filter[host_eq]=host@example.com`, `filter[host_eq]=me`, `filter[attendee_eq]=attendee@example.com`, `filter[attendee_eq]=me`, `filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com`.
+
+          Returns paginated recording metadata and cursor info; use returned ids/tokens in follow-up tools like getting the transcripts of the found meetings.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 30000
+      summary: List recordings
+      description: 'Returns recordings **visible to the owner of the API key**.
+
+
+        If you want to access "all" recordings, use an admin user who is added to all restricted groups. Recordings with explicit `only_me` permission are only accessible by said user.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        - Endpoint-specific: 60 requests per minute per API key.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Recordings fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recording-index-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /recordings/{token}:
+    get:
+      tags:
+      - Recordings
+      operationId: getRecording
+      x-mcp:
+        enabled: true
+        toolName: recordings_get
+        title: Get recording details
+        description: 'Fetch one recording by token with detailed metadata and computed stats.
+
+          Typical use case: opening one call after a token is known or selected from list results (for example: "open this recording", "show details for token X").
+
+          Returns a single recording object including ownership, timing, and processing state.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 45000
+      summary: Get recording details
+      description: 'Returns a single recording with detailed metadata and derived stats.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/recording-token'
+      responses:
+        '200':
+          description: Recording fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recording-detail-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /recordings/{token}/transcript:
+    get:
+      tags:
+      - Recordings
+      operationId: getRecordingTranscript
+      x-mcp:
+        enabled: true
+        toolName: recordings_get_transcript
+        title: Get recording transcript
+        description: 'Retrieve transcript content for a single recording, optionally translated via `lang`.
+
+          Typical use case: reading, quoting, summarizing, or analyzing what was said in one call (for example: "show transcript", "translate transcript to de").
+
+          Returns transcript paragraphs/sentences (or plain text format when requested).
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 20000
+      summary: Get recording transcript
+      description: 'Returns the full transcript grouped into paragraphs and sentences.
+
+
+        Use the optional `lang` query parameter to request a translated transcript.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/recording-token'
+      - $ref: '#/components/parameters/transcript-language'
+      - $ref: '#/components/parameters/transcript-format'
+      responses:
+        '200':
+          description: Transcript fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recording-transcript-response'
+            text/plain:
+              schema:
+                type: string
+              examples:
+                meetingLines:
+                  summary: speaker-prefixed transcript lines
+                  value: 'Host User:
+
+                    Thanks for joining.
+
+                    Let''s review the agenda.
+
+                    Customer Contact:
+
+                    Sounds good, let''s start.
+
+                    '
+        '202':
+          $ref: '#/components/responses/transcript-processing'
+        '204':
+          description: Transcript exists but is empty or too short.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /transcripts/batch:
+    post:
+      tags:
+      - Recordings
+      operationId: batchGetRecordingsTranscripts
+      x-mcp:
+        enabled: true
+        toolName: recordings_batch_get_transcripts
+        title: Get transcripts in batch
+        description: 'Retrieve transcripts for up to 100 recordings in one request.
+
+          Typical use case: cross-call analysis over a known set of recording tokens (for example: "get transcripts for these 20 calls").
+
+          This endpoint performs retrieval only and does not create, update, or delete data.
+
+          Returns per-recording transcript payloads with per-item status so partial failures remain inspectable.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 60000
+      summary: Get transcripts in batch
+      description: 'Returns transcripts for `n` recordings (`n` <= 100).
+
+        Results are returned with a per-recording status.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transcript-batch-request'
+      responses:
+        '200':
+          description: Transcript batch fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transcript-batch-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /recordings/{token}/summaries:
+    get:
+      tags:
+      - Recordings
+      operationId: listRecordingSummaries
+      x-mcp:
+        enabled: true
+        toolName: recordings_list_summaries
+        title: List recording summaries
+        description: 'List AI-generated summaries attached to a recording.
+
+          Typical use case: recap notes, highlights, or summary variants for a specific call (for example: "show the summary", "what are the key takeaways?").
+
+          Returns summary records and metadata for the requested recording token.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 30000
+      summary: List recording summaries
+      description: 'Returns generated summaries associated with the recording.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/recording-token'
+      responses:
+        '200':
+          description: Summaries fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recording-summaries-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /recordings/{token}/scorecards:
+    get:
+      tags:
+      - Recordings
+      operationId: listRecordingScorecards
+      x-mcp:
+        enabled: true
+        toolName: recordings_list_scorecards
+        title: List recording scorecards
+        description: 'List non-deleted scorecards linked to a recording.
+
+          Typical use case: coaching evaluation, rubric results, or scoring details for a call (for example: "show scorecard", "how did this call score?").
+
+          Returns scorecard entries and associated scoring metadata for the recording token.
+
+          '
+        readOnlyHint: true
+        idempotentHint: true
+        destructiveHint: false
+        openWorldHint: true
+        timeoutMs: 15000
+      summary: List recording scorecards
+      description: 'Returns non-deleted scorecards associated with the recording.
+
+
+        Rate limits:
+
+        - Global: 120 requests per minute per API key.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/recording-token'
+      responses:
+        '200':
+          description: Scorecards fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recording-scorecards-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  schemas:
+    recording-summaries-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/summary-list-item'
+    error-response:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          - requestId
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+    recording-detail-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/recording-detail-item'
+    recording-meeting-location-item:
+      type: object
+      required:
+      - kind
+      - value
+      properties:
+        kind:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+    transcript:
+      type: object
+      required:
+      - language
+      - paragraphs
+      properties:
+        language:
+          type: string
+        paragraphs:
+          type: array
+          items:
+            $ref: '#/components/schemas/transcript-paragraph'
+    recording-transcript-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/transcript'
+    recording-participant-item:
+      type: object
+      required:
+      - participantId
+      - displayName
+      - email
+      - permission
+      - attended
+      properties:
+        participantId:
+          type: string
+        displayName:
+          type: string
+        email:
+          type:
+          - string
+          - 'null'
+        permission:
+          type: string
+          enum:
+          - customer
+          - team
+          - host
+        attended:
+          type: boolean
+    transcript-sentence:
+      type: object
+      required:
+      - startInSeconds
+      - endInSeconds
+      - text
+      properties:
+        startInSeconds:
+          type: number
+        endInSeconds:
+          type: number
+        text:
+          type: string
+    transcript-batch-request:
+      type: object
+      required:
+      - recordingTokens
+      properties:
+        recordingTokens:
+          type: array
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
+          items:
+            type: string
+        lang:
+          type: string
+          pattern: ^[a-z]{2}(-[A-Z]{2})?$
+          description: 'Translate results to the provided language on-the-fly. Examples: `de`, `fr`, etc.'
+        format:
+          type: string
+          enum:
+          - json
+          - plaintext
+          default: json
+          description: Whether you want structured data for every single sentence or the transcript merged into plain text.
+    recording-detail-item:
+      allOf:
+      - $ref: '#/components/schemas/recording-list-item'
+      - type: object
+        required:
+        - host
+        - audioOnly
+        - attendeeClassification
+        - meetingLocation
+        - participants
+        - groups
+        - statistics
+        properties:
+          host:
+            description: The demo host, resolved inline. `null` when no host is assigned to the demo.
+            oneOf:
+            - $ref: '#/components/schemas/recording-host-item'
+            - type: 'null'
+          audioOnly:
+            type: boolean
+          attendeeClassification:
+            type:
+            - string
+            - 'null'
+            enum:
+            - internal_meeting
+            - external_meeting
+            - 'null'
+          meetingLocation:
+            $ref: '#/components/schemas/recording-meeting-location-item'
+          participants:
+            type: array
+            items:
+              $ref: '#/components/schemas/recording-participant-item'
+          groups:
+            type: array
+            description: Groups assigned to the demo. Only populated when access is `selected_groups`.
+            items:
+              $ref: '#/components/schemas/recording-group-item'
+          statistics:
+            $ref: '#/components/schemas/recording-statistics'
+    transcript-batch-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/transcript-batch-item'
+        meta:
+          type: object
+          required:
+          - requestedCount
+          properties:
+            requestedCount:
+              type: integer
+              minimum: 1
+    recording-group-item:
+      type: object
+      required:
+      - groupId
+      - groupName
+      properties:
+        groupId:
+          type: string
+          description: Internal group ID as string.
+          examples:
+          - '456'
+        groupName:
+          type: string
+          description: Name of the group.
+          examples:
+          - Enterprise Sales
+    recording-host-item:
+      type: object
+      description: The host of the demo, resolved inline so consumers don't need a follow-up users lookup.
+      required:
+      - userId
+      - displayName
+      - email
+      properties:
+        userId:
+          type: string
+          description: ID of the demo host user as string.
+        displayName:
+          type: string
+          description: Human-readable name of the host.
+        email:
+          type: string
+          description: Email address of the host.
+    summary-list-item:
+      type: object
+      required:
+      - summaryId
+      - promptId
+      - promptName
+      - languageCode
+      - content
+      - htmlContent
+      - createdAt
+      - updatedAt
+      properties:
+        summaryId:
+          type: string
+        promptId:
+          type:
+          - string
+          - 'null'
+        promptName:
+          type:
+          - string
+          - 'null'
+        languageCode:
+          type: string
+        content:
+          type: string
+        htmlContent:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    recording-index-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/recording-list-item'
+        meta:
+          type: object
+          required:
+          - hasNext
+          - limit
+          properties:
+            hasNext:
+              type: boolean
+            limit:
+              type: integer
+            nextCursor:
+              type:
+              - string
+              - 'null'
+    transcript-speaker:
+      type: object
+      required:
+      - displayName
+      properties:
+        displayName:
+          type:
+          - string
+          - 'null'
+    transcript-batch-item:
+      type: object
+      required:
+      - recordingToken
+      - status
+      - transcript
+      properties:
+        recordingToken:
+          type: string
+        status:
+          type: string
+          enum:
+          - ready
+          - processing
+          - not_requested
+          - empty
+          - not_found
+        transcript:
+          oneOf:
+          - $ref: '#/components/schemas/transcript'
+          - $ref: '#/components/schemas/transcript-plaintext'
+          - type: 'null'
+    scorecard-list-item:
+      type: object
+      required:
+      - scorecardId
+      - templateId
+      - templateName
+      - score
+      - comment
+      - languageCode
+      - giverUserId
+      - receiverUserId
+      - createdAt
+      - updatedAt
+      - questions
+      properties:
+        scorecardId:
+          type: string
+        templateId:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type: string
+        score:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+          maximum: 5
+        comment:
+          type:
+          - string
+          - 'null'
+        languageCode:
+          type:
+          - string
+          - 'null'
+        giverUserId:
+          type:
+          - integer
+          - 'null'
+        receiverUserId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/scorecard-question-list-item'
+    scorecard-question-list-item:
+      type: object
+      required:
+      - questionId
+      - position
+      - name
+      - text
+      - criteria
+      - score
+      - comment
+      - rawTimestamps
+      properties:
+        questionId:
+          type: string
+        position:
+          type: integer
+          minimum: 0
+        name:
+          type:
+          - string
+          - 'null'
+        text:
+          type: string
+        criteria:
+          type:
+          - string
+          - 'null'
+        score:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+          maximum: 5
+        comment:
+          type:
+          - string
+          - 'null'
+        rawTimestamps:
+          type:
+          - string
+          - 'null'
+    transcript-paragraph:
+      type: object
+      required:
+      - startInSeconds
+      - endInSeconds
+      - speaker
+      - sentences
+      properties:
+        startInSeconds:
+          type: number
+        endInSeconds:
+          type: number
+        speaker:
+          anyOf:
+          - $ref: '#/components/schemas/transcript-speaker'
+          - type: 'null'
+        sentences:
+          type: array
+          items:
+            $ref: '#/components/schemas/transcript-sentence'
+    recording-scorecards-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/scorecard-list-item'
+    recording-list-item:
+      type: object
+      required:
+      - recordingToken
+      - recordingId
+      - demoId
+      - userId
+      - name
+      - recordingWebUrl
+      - temporaryDirectUrl
+      - status
+      - createdAt
+      - updatedAt
+      - demoStartDate
+      - durationMs
+      - postprocessingStatus
+      - access
+      properties:
+        recordingToken:
+          type: string
+          description: Public recording token identifier.
+        recordingId:
+          type: string
+          description: Internal recording id as string.
+        demoId:
+          type: string
+          description: Internal demo id as string.
+        userId:
+          type: integer
+          description: ID of the demo host user.
+        name:
+          type:
+          - string
+          - 'null'
+        recordingWebUrl:
+          type: string
+          description: URL to the recording view in Demodesk.
+        temporaryDirectUrl:
+          type:
+          - string
+          - 'null'
+          description: Direct link to the video file, signed with a temporary access token.
+        status:
+          type: string
+          description: 'Recording status.
+
+            - `pending`: recording is still in progress or processing
+
+            - `ready`: recording can be consumed
+
+            - `failure`: recording failed
+
+            - `cancelled`: recording never started, eg. because the bot was not admitted
+
+            - `expired`: recording expired
+
+            '
+          enum:
+          - pending
+          - ready
+          - failure
+          - cancelled
+          - expired
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        demoStartDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        durationMs:
+          type:
+          - integer
+          - 'null'
+        postprocessingStatus:
+          type:
+          - string
+          - 'null'
+          description: 'Recording post-processing status. Post-processing includes transcription, participant data enrichment, meeting statistics, generating summaries, etc.
+
+            '
+          enum:
+          - pending
+          - done
+          - failed
+          - too_short
+        access:
+          type: string
+          description: 'Access permission level of the demo.
+
+            - `company_wide`: visible to all company members
+
+            - `selected_groups`: visible to members of assigned groups
+
+            - `host_and_participants`: visible only to the host and participants
+
+            - `host_only`: visible only to the host
+
+            '
+          enum:
+          - company_wide
+          - selected_groups
+          - host_and_participants
+          - host_only
+        groupIds:
+          type: array
+          description: IDs of groups assigned to the demo. Present in list responses only; detail responses use `groups` instead.
+          items:
+            type: string
+    transcript-plaintext:
+      type: object
+      required:
+      - language
+      - text
+      properties:
+        language:
+          type: string
+        text:
+          type: string
+    recording-statistics:
+      type: object
+      required:
+      - engagementScore
+      - feedbackScore
+      properties:
+        engagementScore:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          maximum: 10
+        feedbackScore:
+          type:
+          - number
+          - 'null'
+          format: float
+  responses:
+    not-found:
+      description: Recording or related resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    unauthorized:
+      description: API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    bad-request:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    too-many-requests:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next request is allowed.
+          schema:
+            type: integer
+    transcript-processing:
+      description: Transcript is still being processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+  parameters:
+    limit:
+      name: limit
+      in: query
+      required: false
+      description: Page size for recordings list.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    transcript-format:
+      name: format
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - json
+        - plaintext
+        default: json
+      description: Whether to return structured transcript JSON or plain text.
+    recording-token:
+      name: token
+      in: path
+      required: true
+      description: Public recording token identifier.
+      schema:
+        type: string
+      example: d0584dc4e31be4a0
+    transcript-language:
+      name: lang
+      in: query
+      required: false
+      schema:
+        type: string
+        pattern: ^[a-z]{2}(-[A-Z]{2})?$
+      description: Translate transcript on-the-fly to the provided language.
+    cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Opaque cursor returned by a previous list response.
+      schema:
+        type: string
+    filter:
+      name: filter
+      in: query
+      description: 'Filter recordings by their properties.
+
+
+        This uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.
+
+        Common operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.
+
+
+        Common examples
+
+        - `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)
+
+        - `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)
+
+        - `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)
+
+        - `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`
+
+        - `/api/v2/recordings?filter[demo_id_eq]=123`
+
+        - `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)
+
+        - `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)
+
+        - `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)
+
+        - `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)
+
+        - `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)
+
+        - `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host''s group membership; for `access: selected_groups` recordings: matches by the demo''s assigned groups)
+
+        - `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)
+
+        - `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)
+
+
+        They can be combined freely.
+
+        '
+      required: false
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          created_at_eq:
+            type: string
+          created_at_not_eq:
+            type: string
+          created_at_lt:
+            type: string
+          created_at_lteq:
+            type: string
+          created_at_gt:
+            type: string
+          created_at_gteq:
+            type: string
+          created_at_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          created_at_not_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          created_at_cont:
+            type: string
+          updated_at_eq:
+            type: string
+          updated_at_not_eq:
+            type: string
+          updated_at_lt:
+            type: string
+          updated_at_lteq:
+            type: string
+          updated_at_gt:
+            type: string
+          updated_at_gteq:
+            type: string
+          updated_at_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          updated_at_not_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          updated_at_cont:
+            type: string
+          demo_start_date_eq:
+            type: string
+          demo_start_date_not_eq:
+            type: string
+          demo_start_date_lt:
+            type: string
+          demo_start_date_lteq:
+            type: string
+          demo_start_date_gt:
+            type: string
+          demo_start_date_gteq:
+            type: string
+          demo_start_date_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          demo_start_date_not_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          demo_start_date_cont:
+            type: string
+          duration_eq:
+            type: string
+          duration_not_eq:
+            type: string
+          duration_lt:
+            type: string
+          duration_lteq:
+            type: string
+          duration_gt:
+            type: string
+          duration_gteq:
+            type: string
+          duration_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          duration_not_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          duration_cont:
+            type: string
+          demo_id_eq:
+            type: string
+          demo_id_not_eq:
+            type: string
+          demo_id_lt:
+            type: string
+          demo_id_lteq:
+            type: string
+          demo_id_gt:
+            type: string
+          demo_id_gteq:
+            type: string
+          demo_id_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          demo_id_not_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          demo_id_cont:
+            type: string
+          host_eq:
+            type: string
+            description: Host selector. Accepts an email address or `me`.
+            example: me
+          host_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+            description: Host selectors. Each value accepts an email address or `me`.
+            example:
+            - me
+            - host@example.com
+          attendee_eq:
+            type: string
+            description: Attendee selector. Accepts an email address or `me`.
+            example: attendee@example.com
+          attendee_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+            description: Attendee selectors. Each value accepts an email address or `me`.
+            example:
+            - me
+            - attendee@example.com
+          status_eq:
+            type: string
+            enum:
+            - pending
+            - ready
+            - failure
+            - cancelled
+            - expired
+            example: ready
+          status_not_eq:
+            type: string
+            enum:
+            - pending
+            - ready
+            - failure
+            - cancelled
+            - expired
+            example: failure
+          status_in:
+            oneOf:
+            - type: string
+              enum:
+              - pending
+              - ready
+              - failure
+              - cancelled
+              - expired
+            - type: array
+              items:
+                type: string
+                enum:
+                - pending
+                - ready
+                - failure
+                - cancelled
+                - expired
+            example:
+            - ready
+            - failure
+          status_not_in:
+            oneOf:
+            - type: string
+              enum:
+              - pending
+              - ready
+              - failure
+              - cancelled
+              - expired
+            - type: array
+              items:
+                type: string
+                enum:
+                - pending
+                - ready
+                - failure
+                - cancelled
+                - expired
+            example:
+            - cancelled
+            - expired
+          postprocessing_status_eq:
+            type: string
+            enum:
+            - pending
+            - done
+            - too_short
+            - failed
+            example: done
+          postprocessing_status_not_eq:
+            type: string
+            enum:
+            - pending
+            - done
+            - too_short
+            - failed
+            example: failed
+          postprocessing_status_in:
+            oneOf:
+            - type: string
+              enum:
+              - pending
+              - done
+              - too_short
+              - failed
+            - type: array
+              items:
+                type: string
+                enum:
+                - pending
+                - done
+                - too_short
+                - failed
+            example:
+            - done
+            - too_short
+          postprocessing_status_not_in:
+            oneOf:
+            - type: string
+              enum:
+              - pending
+              - done
+              - too_short
+              - failed
+            - type: array
+              items:
+                type: string
+                enum:
+                - pending
+                - done
+                - too_short
+                - failed
+            example:
+            - pending
+            - failed
+          group_id_eq:
+            type: string
+          group_id_in:
+            oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          access_eq:
+            type: string
+            enum:
+            - company_wide
+            - selected_groups
+            - host_only
+            example: host_only
+          access_not_eq:
+            type: string
+            enum:
+            - company_wide
+            - selected_groups
+            - host_only
+            example: selected_groups
+          access_in:
+            oneOf:
+            - type: string
+              enum:
+              - company_wide
+              - selected_groups
+              - host_only
+            - type: array
+              items:
+                type: string
+                enum:
+                - company_wide
+                - selected_groups
+                - host_only
+            example:
+            - company_wide
+            - host_only
+          access_not_in:
+            oneOf:
+            - type: string
+              enum:
+              - company_wide
+              - selected_groups
+              - host_only
+            - type: array
+              items:
+                type: string
+                enum:
+                - company_wide
+                - selected_groups
+                - host_only
+            example:
+            - selected_groups
+      examples:
+        readyAndPostprocessedAfterToday:
+          summary: post-processing done, after today
+          value:
+            status_eq: ready
+            postprocessing_status_eq: done
+            created_at_gteq: '2026-03-04T00:00:00Z'
+        byDemoId:
+          summary: by demo id
+          value:
+            demo_id_eq: '123'
+        readyOrFailure:
+          summary: status in ready or failure
+          value:
+            status_in:
+            - ready
+            - failure
+        byHostMe:
+          summary: by current user as host
+          value:
+            host_eq: me
+        byHostEmail:
+          summary: by host email
+          value:
+            host_eq: host@example.com
+        byMultipleHosts:
+          summary: by multiple hosts
+          value:
+            host_in:
+            - me
+            - manager@example.com
+        byAttendeeEmail:
+          summary: by attendee email
+          value:
+            attendee_eq: attendee@example.com
+        byMultipleAttendees:
+          summary: by multiple attendees
+          value:
+            attendee_in:
+            - me
+            - champion@example.com
+        readyOnly:
+          summary: ready recordings only
+          value:
+            status_eq: ready
+        failureOnly:
+          summary: failure recordings only
+          value:
+            status_eq: failure
+        cancelledOnly:
+          summary: cancelled recordings only
+          value:
+            status_eq: cancelled
+        expiredOnly:
+          summary: expired recordings only
+          value:
+            status_eq: expired
+        processedOnly:
+          summary: post-processing done
+          value:
+            postprocessing_status_eq: done
+        tooShortOnly:
+          summary: post-processing too short
+          value:
+            postprocessing_status_eq: too_short
+        updatedSince:
+          summary: updated since timestamp
+          value:
+            updated_at_gteq: '2025-01-01T00:00:00Z'
+        dateWindow:
+          summary: meeting date window
+          value:
+            demo_start_date_gteq: '2025-01-01T00:00:00Z'
+            demo_start_date_lteq: '2025-01-31T23:59:59Z'
+        minimumDuration:
+          summary: minimum duration in ms
+          value:
+            duration_gteq: '1800000'
+        byGroupId:
+          summary: by group id
+          value:
+            group_id_eq: '99'
+        byMultipleGroupIds:
+          summary: by multiple group ids
+          value:
+            group_id_in:
+            - '99'
+            - '100'
+        readyByGroupId:
+          summary: ready recordings for a specific group
+          value:
+            status_eq: ready
+            group_id_eq: '99'
+        byAccessLevel:
+          summary: by demo access level
+          value:
+            access_eq: host_only
+  securitySchemes:
+    api-key:
+      type: apiKey
+      name: api-key
+      in: header
