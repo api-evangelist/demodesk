@@ -1,0 +1,12 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/demodesk-v2-openapi.yml
+skills:
+- file: demodesk-fetch-recording-insights.md
+  name: Fetch Demodesk recording insights
+  api: openapi/demodesk-v2-openapi.yml
+  operations: [listRecordings, getRecording, getRecordingTranscript, listRecordingSummaries, listRecordingScorecards]
+- file: demodesk-react-to-meeting-events.md
+  name: React to Demodesk meeting events
+  api: openapi/demodesk-v2-openapi.yml
+  operations: [getRecording, getRecordingTranscript, listRecordingSummaries]

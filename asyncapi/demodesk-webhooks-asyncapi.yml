@@ -1,0 +1,51 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/demodesk-v2-openapi.yml (webhooks section)
+spec_type: AsyncAPI
+note: >-
+  Faithfully generated from the 10 webhook events natively declared in the
+  Demodesk v2 OpenAPI `webhooks` block. Webhooks are enabled by emailing
+  support@demodesk.com with the target endpoint URL and desired events.
+  Message schemas mirror the referenced OpenAPI component schemas.
+asyncapi: 3.0.0
+info:
+  title: Demodesk Webhooks
+  version: v2
+  description: Event notifications Demodesk POSTs to a subscriber endpoint.
+  contact:
+    email: support@demodesk.com
+defaultContentType: application/json
+channels:
+  demoScheduled: { address: demo.scheduled, messages: { event: { $ref: '#/components/messages/demoScheduled' } } }
+  demoRescheduled: { address: demo.rescheduled, messages: { event: { $ref: '#/components/messages/demoRescheduled' } } }
+  demoHandovered: { address: demo.handovered, messages: { event: { $ref: '#/components/messages/demoHandovered' } } }
+  demoCanceled: { address: demo.canceled, messages: { event: { $ref: '#/components/messages/demoCanceled' } } }
+  demoStarted: { address: demo.started, messages: { event: { $ref: '#/components/messages/demoStarted' } } }
+  demoEnded: { address: demo.ended, messages: { event: { $ref: '#/components/messages/demoEnded' } } }
+  demoCallNoteUpdated: { address: demo.call_note_updated, messages: { event: { $ref: '#/components/messages/demoCallNoteUpdated' } } }
+  demoEventResponseUpdated: { address: demo.event_response_updated, messages: { event: { $ref: '#/components/messages/demoEventResponseUpdated' } } }
+  recordingUploaded: { address: recording.uploaded, messages: { event: { $ref: '#/components/messages/recordingUploaded' } } }
+  recordingTranscriptionPostprocessed: { address: recording.transcription_postprocessed, messages: { event: { $ref: '#/components/messages/recordingTranscriptionPostprocessed' } } }
+operations:
+  receiveDemoScheduled: { action: receive, channel: { $ref: '#/channels/demoScheduled' } }
+  receiveDemoRescheduled: { action: receive, channel: { $ref: '#/channels/demoRescheduled' } }
+  receiveDemoHandovered: { action: receive, channel: { $ref: '#/channels/demoHandovered' } }
+  receiveDemoCanceled: { action: receive, channel: { $ref: '#/channels/demoCanceled' } }
+  receiveDemoStarted: { action: receive, channel: { $ref: '#/channels/demoStarted' } }
+  receiveDemoEnded: { action: receive, channel: { $ref: '#/channels/demoEnded' } }
+  receiveDemoCallNoteUpdated: { action: receive, channel: { $ref: '#/channels/demoCallNoteUpdated' } }
+  receiveDemoEventResponseUpdated: { action: receive, channel: { $ref: '#/channels/demoEventResponseUpdated' } }
+  receiveRecordingUploaded: { action: receive, channel: { $ref: '#/channels/recordingUploaded' } }
+  receiveRecordingTranscriptionPostprocessed: { action: receive, channel: { $ref: '#/channels/recordingTranscriptionPostprocessed' } }
+components:
+  messages:
+    demoScheduled: { name: demo.scheduled, title: Demo scheduled, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-scheduled-payload' } }
+    demoRescheduled: { name: demo.rescheduled, title: Demo rescheduled, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-rescheduled-payload' } }
+    demoHandovered: { name: demo.handovered, title: Demo handovered, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-handovered-payload' } }
+    demoCanceled: { name: demo.canceled, title: Demo canceled, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-canceled-payload' } }
+    demoStarted: { name: demo.started, title: Demo started, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-started-payload' } }
+    demoEnded: { name: demo.ended, title: Demo ended, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-ended-payload' } }
+    demoCallNoteUpdated: { name: demo.call_note_updated, title: Demo call note updated, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-call-note-updated-payload' } }
+    demoEventResponseUpdated: { name: demo.event_response_updated, title: Demo event response updated, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-event-response-updated-payload' } }
+    recordingUploaded: { name: recording.uploaded, title: Recording uploaded, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-recording-uploaded-payload' } }
+    recordingTranscriptionPostprocessed: { name: recording.transcription_postprocessed, title: Recording transcription postprocessed, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-recording-transcription-postprocessed-payload' } }

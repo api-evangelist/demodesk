@@ -1,0 +1,14 @@
+{
+  "repo": "demodesk",
+  "feeds": [
+    {
+      "source": "https://help.demodesk.com",
+      "feed_url": "https://help.demodesk.com",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-07-25T15:00:33Z"
+}

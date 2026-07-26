@@ -1,0 +1,50 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/demodesk-v2-openapi.yml
+entities:
+- name: user
+  key: id
+  operations: [getCurrentUser, listUsers]
+  schemas: [current-user-item, user-list-item]
+- name: recording
+  key: token
+  operations: [listRecordings, getRecording]
+  schemas: [recording-list-item, recording-detail-item]
+  fields: [host, meetingLocation, participants, statistics, group]
+- name: transcript
+  key: recording token
+  operations: [getRecordingTranscript, batchGetRecordingsTranscripts]
+  schemas: [transcript, transcript-paragraph, transcript-sentence, transcript-speaker]
+- name: summary
+  key: recording token
+  operations: [listRecordingSummaries]
+  schemas: [summary-list-item]
+- name: scorecard
+  key: recording token
+  operations: [listRecordingScorecards]
+  schemas: [scorecard-list-item, scorecard-question-list-item]
+- name: demo
+  note: Event-only entity — surfaced via webhooks (demo.scheduled/started/ended/...) and v1 externally_recorded_demos, not a v2 REST resource.
+relationships:
+- from: recording
+  to: user
+  type: belongs_to
+  via: host
+- from: recording
+  to: transcript
+  type: has_one
+  via: token
+- from: recording
+  to: summary
+  type: has_many
+  via: token
+- from: recording
+  to: scorecard
+  type: has_many
+  via: token
+- from: transcript
+  to: transcript-paragraph
+  type: has_many
+- from: transcript-paragraph
+  to: transcript-sentence
+  type: has_many

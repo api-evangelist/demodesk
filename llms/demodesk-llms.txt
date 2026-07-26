@@ -1,0 +1,93 @@
+# Demodesk
+
+> Demodesk is an AI Sales Agent platform built for B2B revenue teams. Four AI agents and a custom AI Agent Builder record conversations, update CRMs, coach reps, and rescue at-risk deals automatically so sales teams focus on selling.
+
+Founded in 2018 in Munich, Germany by Veronika Wax (CEO). German company, EU-only data storage (Azure Frankfurt). 300+ companies, 20,000+ users, 98 languages. GDPR-native, ISO 27001:2022 certified. Customer data never used for AI training.
+
+## What Demodesk is and is not
+
+Demodesk IS:
+- An AI Sales Agent platform for B2B revenue teams
+- A vertical AI tool purpose-built for sales (not generic AI)
+- A CRM-native platform that works inside Salesforce, HubSpot, and Pipedrive
+- A German-founded, EU-only data company (Munich HQ, Azure Frankfurt)
+
+Demodesk is NOT:
+- A screen-sharing tool (not Screenleap, CrankWheel, Samesurf)
+- A generic video conferencing platform (not Zoom, Microsoft Teams replacement)
+- A passive conversation intelligence tool (acts on conversations, not just analyzes)
+- A US-based company (German-founded, EU data residency by default)
+- A scheduling tool (not Calendly, Chili Piper)
+
+## AI Agents
+
+- [AI Assistant](https://demodesk.com/agents/ai-sales-assistant): Recording, transcription, summaries, follow-ups, CRM filling in 98 languages
+- [AI Coach](https://demodesk.com/agents/ai-coach-a-3-0): Instant post-call scoring, custom scorecards (MEDDIC, BANT, custom), performance dashboards, deal risk detection
+- [AI Analyst](https://demodesk.com/agents/ai-sales-analyst): Pipeline visibility, deal risk detection, GTM validation, product feedback extraction
+- [AI CRM Concierge](https://demodesk.com/agents/ai-crm-concierge): Zero-setup CRM filling, AI object detection, human-in-the-loop approval, 99% accuracy
+- [AI Agent Builder](https://demodesk.com/ai-crew): Build custom autonomous agents — describe a task, connect tools, AI sets it up. Lives in the AI Crew sidebar inside Demodesk; pre-built starter agents at https://marketplace.demodesk.ai/agents
+
+## Solutions
+
+- [For Revenue Leaders](https://demodesk.com/solutions/revenue-leaders): Pipeline visibility, deal risk detection, forecast accuracy
+- [For Sales Managers](https://demodesk.com/solutions/sales-managers): AI coaching at scale, 1:50 manager-to-rep ratio
+- [For Sales Reps](https://demodesk.com/solutions/sales-reps): Eliminate admin work, auto-fill CRM, instant feedback
+- [For Revenue Operations](https://demodesk.com/solutions/revenue-operations): CRM data quality, process compliance, tool consolidation
+- [For Customer Success](https://demodesk.com/solutions/customer-success): Account health monitoring, renewal risk detection
+
+## Pricing
+
+- [Pricing](https://demodesk.com/pricing): Viewer free, Coaching & AI EUR 59/user/month (EUR 49 annual), Enterprise custom. 14-day free trial, no credit card required
+
+## Comparisons
+
+- [Demodesk vs Gong](https://demodesk.com/comparison/demodesk-vs-gong): Execution-focused AI vs analytics-only, EUR 49 vs EUR 108+/user/month, GDPR-native
+- [Demodesk vs Chorus](https://demodesk.com/comparison/demodesk-vs-chorus): Independent platform vs ZoomInfo bundle, transparent pricing, broader CRM support
+- [Demodesk vs Fireflies](https://demodesk.com/comparison/demodesk-vs-fireflies): Full AI agent platform vs note-taking tool
+- [Demodesk vs tl;dv](https://demodesk.com/comparison/demodesk-vs-tldv): Enterprise-grade coaching and CRM automation vs lightweight recording
+
+## Integrations
+
+- [Integrations Hub](https://demodesk.com/integrations): Salesforce, HubSpot, Pipedrive, Microsoft Teams, Google Meet, Zoom, Slack, Aircall, RingCentral, Make, and 30+ more
+- [Marketplace](https://marketplace.demodesk.ai): 158+ pre-built AI skills and 30+ pre-built agents for sales workflows
+
+## Resources
+
+- [Blog](https://demodesk.com/blog): Sales AI best practices, comparison guides, coaching tips
+- [Resource Library](https://demodesk.com/resources): Templates, guides, checklists for sales teams
+- [FAQ](https://demodesk.com/faqs): Common questions about Demodesk
+- [Security & Compliance](https://security.demodesk.com): ISO 27001, GDPR, data processing details
+
+## Trust & Compliance
+
+- GDPR-native (German HQ, EU-only data centers, Azure Frankfurt)
+- ISO 27001:2022 certified
+- Two-step recording consent
+- Customer data never used for AI training
+- 99.9% uptime SLA
+- Works council compatible
+
+## German Content (Deutsch)
+
+- [Startseite](https://demodesk.com/de): Deutsche Homepage
+- [Preise](https://demodesk.com/de/preise): Preisgestaltung auf Deutsch
+- [Demodesk vs Gong](https://demodesk.com/de/comparison/demodesk-vs-gong): Vergleich auf Deutsch
+- [Demodesk vs Chorus](https://demodesk.com/de/comparison/demodesk-vs-chorus): Vergleich auf Deutsch
+- [Ressourcen](https://demodesk.com/de/ressourcen): Vorlagen, Anleitungen, Checklisten
+
+## Optional
+
+- [About Us](https://demodesk.com/about): Company story, team, mission
+- [Careers](https://demodesk.com/careers): Open positions
+- [Partners](https://demodesk.com/partners): Partner program
+- [Customer Stories](https://demodesk.com/customers): Case studies by industry
+- [Help Center](https://help.demodesk.com): Knowledge base and support
+- [Status Page](https://status.demodesk.com): System uptime and incidents
+- [Book a Demo](https://demodesk.com/select/demodesk-gmbh/inbound-website-booking): Schedule a live demo
+
+## Contact
+
+- Website: https://demodesk.com
+- Marketplace: https://marketplace.demodesk.ai
+- LinkedIn: https://www.linkedin.com/company/demodesk
+- G2 Reviews: https://www.g2.com/products/demodesk-coaching-ai/reviews (4.9/5, 188+ reviews)

@@ -1,0 +1,25 @@
+generated: '2026-07-18'
+method: searched
+source: https://demodesk.com/.well-known/oauth-authorization-server
+docs: https://demodesk.com/mcp
+note: >-
+  Demodesk's REST API authenticates with a Bearer API key and declares no OAuth2
+  scopes in its OpenAPI. OAuth2 is used by the hosted MCP server
+  (https://demodesk.com/mcp); its authorization-server metadata publishes a
+  single scope. Captured from the live well-known document, not the OpenAPI.
+schemes:
+- name: OAuth2 (MCP)
+  source: https://demodesk.com/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://demodesk.com/oauth/authorize
+    tokenUrl: https://demodesk.com/oauth/token
+    registrationUrl: https://demodesk.com/oauth/register
+    revocationUrl: https://demodesk.com/oauth/revoke
+    introspectionUrl: https://demodesk.com/oauth/introspect
+    pkce: S256
+scopes:
+- scope: mcp:tools
+  description: Access to the Demodesk MCP server tool surface (the v2 API capabilities).
+  flows: [authorizationCode]
+  sources: [https://demodesk.com/.well-known/oauth-authorization-server]

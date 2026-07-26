@@ -1,0 +1,52 @@
+generated: '2026-07-18'
+method: searched
+status: published
+source: https://demodesk.com/api/docs/index.html
+server:
+  name: demodesk
+  transport: http
+  url: https://demodesk.com/mcp
+  description: |
+    Official hosted MCP server. Exposes the same capabilities as the Demodesk
+    Public v2 API to AI agents. Documented in the v2 OpenAPI description.
+  authorization:
+    type: oauth2
+    discovery: https://demodesk.com/.well-known/oauth-protected-resource
+    authorization_server: https://demodesk.com/.well-known/oauth-authorization-server
+    flows: [authorization_code]
+    pkce: S256
+    dynamic_client_registration: https://demodesk.com/oauth/register
+    scopes: [mcp:tools]
+    note: >-
+      Probing https://demodesk.com/mcp returns HTTP 401 (auth required),
+      confirming the endpoint exists and enforces OAuth2.
+tools:
+  # Candidate tool surface mirrors the v2 API operations (the MCP server exposes
+  # "the same capabilities of this API"). Not enumerated verbatim from a manifest.
+  status: candidate
+  derived_from: openapi/demodesk-v2-openapi.yml
+  list:
+  - name: get_current_user
+    description: Get the current user
+    source_operation: openapi/demodesk-v2-openapi.yml#getCurrentUser
+  - name: list_users
+    description: List users
+    source_operation: openapi/demodesk-v2-openapi.yml#listUsers
+  - name: list_recordings
+    description: List recordings
+    source_operation: openapi/demodesk-v2-openapi.yml#listRecordings
+  - name: get_recording
+    description: Get recording details
+    source_operation: openapi/demodesk-v2-openapi.yml#getRecording
+  - name: get_recording_transcript
+    description: Get recording transcript
+    source_operation: openapi/demodesk-v2-openapi.yml#getRecordingTranscript
+  - name: batch_get_transcripts
+    description: Get transcripts in batch
+    source_operation: openapi/demodesk-v2-openapi.yml#batchGetRecordingsTranscripts
+  - name: list_recording_summaries
+    description: List recording summaries
+    source_operation: openapi/demodesk-v2-openapi.yml#listRecordingSummaries
+  - name: list_recording_scorecards
+    description: List recording scorecards
+    source_operation: openapi/demodesk-v2-openapi.yml#listRecordingScorecards

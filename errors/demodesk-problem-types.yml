@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/demodesk-v2-openapi.yml
+format: json
+note: >-
+  Demodesk v2 does NOT use RFC 9457 (application/problem+json). Errors are a
+  JSON envelope { "error": { "code", "message", "requestId" } } returned with a
+  standard HTTP status. `requestId` is the trace identifier to quote in support.
+envelope:
+  media_type: application/json
+  shape: '{ "error": { "code": string, "message": string, "requestId": string } }'
+  trace_field: error.requestId
+problems:
+- status: 400
+  title: Bad request
+  meaning: Malformed request, invalid parameters, or a bad cursor.
+  source_operation: openapi/demodesk-v2-openapi.yml#listRecordings
+- status: 401
+  title: Unauthenticated
+  meaning: Missing or invalid Bearer token / API key.
+  remediation: Pass a valid key in the Authorization header (Bearer YOUR_API_KEY).
+  source_operation: openapi/demodesk-v2-openapi.yml#getCurrentUser
+- status: 404
+  title: Not found
+  meaning: The requested recording token or resource does not exist or is not visible to the key's user.
+  source_operation: openapi/demodesk-v2-openapi.yml#getRecording
+- status: 429
+  title: Too many requests
+  meaning: Rate limit exceeded.
+  remediation: Back off and retry; honor rate-limit signaling.
+  source_operation: openapi/demodesk-v2-openapi.yml#listRecordings

@@ -1,0 +1,21 @@
+generated: '2026-07-18'
+method: searched
+source: https://demodesk.com/api/docs/index.html
+versioning:
+  scheme: uri-path
+  current: v2
+  prior: v1
+  docs: https://help.demodesk.com/en/articles/8518816-api-reference
+deprecation:
+  policy: >-
+    The v1 API is documented as deprecated and "will be discontinued in the
+    future"; new capabilities ship on v2. The legacy `api-key` header is retained
+    on v2 only for backwards compatibility.
+  deprecated_version: v1
+sla:
+  uptime_target: "99.9%"
+  source: https://demodesk.com/llms.txt
+status_page: https://status.demodesk.com
+deprecated_operations:
+- openapi/demodesk-v1-openapi.json#createExternallyRecordedDemo
+- openapi/demodesk-v1-openapi.json (entire v1 surface — slated for discontinuation)

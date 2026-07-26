@@ -1,0 +1,42 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/demodesk-v2-openapi.yml
+docs: https://demodesk.com/api/docs/index.html
+authentication:
+  style: bearer-token
+  header: Authorization
+  format: Bearer YOUR_API_KEY
+  note: >-
+    API key (or OAuth token) as a Bearer token. Legacy `api-key` header still
+    accepted for backwards compatibility (v1). Key inherits the creating user's
+    permissions. See authentication/demodesk-authentication.yml.
+pagination:
+  style: cursor
+  request_params: [cursor, limit]
+  response_fields:
+    envelope: meta
+    has_more: meta.hasNext
+    limit: meta.limit
+    next_cursor: meta.nextCursor
+  note: List responses wrap results in `data[]` with a `meta` object carrying cursor state.
+idempotency:
+  supported: false
+  note: No Idempotency-Key header or idempotent-retry contract is documented; the read-heavy v2 surface is naturally idempotent for GETs.
+request_tracing:
+  field: error.requestId
+  note: Error envelopes carry a `requestId` to quote when contacting support@demodesk.com.
+versioning:
+  scheme: uri-path
+  current: v2
+  prior: v1
+  note: v2 (OpenAPI 3.1) is preferred; v1 (api-key header) will be discontinued. See lifecycle/demodesk-lifecycle.yml.
+error_envelope:
+  media_type: application/json
+  shape: '{ "error": { "code", "message", "requestId" } }'
+  ref: errors/demodesk-problem-types.yml
+rate_limiting:
+  signaled_via_status: 429
+  ref: errors/demodesk-problem-types.yml
+events:
+  surface: webhooks
+  ref: asyncapi/demodesk-webhooks-asyncapi.yml

@@ -1,0 +1,18 @@
+{
+  "provider": "demodesk",
+  "sources": [
+    "demodesk-externally-recorded-demos-api-openapi.yml",
+    "demodesk-recordings-api-openapi.yml",
+    "demodesk-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "demodesk-externally-recorded-demos-api-openapi.yml",
+    "demodesk-recordings-api-openapi.yml",
+    "demodesk-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

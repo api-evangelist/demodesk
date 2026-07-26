@@ -1,0 +1,12 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Demodesk API V1
+  version: 1.0.0
+extends: openapi/demodesk-v1-openapi.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-18'
+    x-apievangelist-deprecated: true
+    x-apievangelist-successor: openapi/demodesk-v2-openapi.yml
+    x-apievangelist-note: v1 is slated for discontinuation; prefer v2. Auth is the legacy api-key header.

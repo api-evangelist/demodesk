@@ -1,25 +1,162 @@
 aid: demodesk
-name: demodesk
-description: demodesk is a company surfaced as a portfolio company of balderton-capital and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+name: Demodesk
+description: >-
+  Demodesk is an AI Sales Agent platform for B2B revenue teams, founded in 2018 in
+  Munich, Germany. Four AI agents (Assistant, Coach, Analyst, CRM Concierge) plus a
+  custom AI Agent Builder record and transcribe sales conversations, generate summaries
+  and scorecards, update CRMs (Salesforce, HubSpot, Pipedrive), coach reps, and flag
+  at-risk deals. The company exposes a public REST API (v2, OpenAPI 3.1) for recordings,
+  transcripts, AI summaries, scorecards, and users, authenticated with Bearer API keys,
+  plus a webhook event surface for meeting and recording lifecycle events and an official
+  hosted MCP server (OAuth2) at demodesk.com/mcp. GDPR-native with EU-only data residency
+  (Azure Frankfurt) and ISO 27001:2022 certification.
 url: https://raw.githubusercontent.com/api-evangelist/demodesk/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://demodesk.com/favicon.ico
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - balderton-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: real-api-found
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Sales
+- AI
+- Conversation Intelligence
+- Video Conferencing
+- CRM
+- Transcription
+- Webhooks
+- MCP
+apis:
+- aid: demodesk:demodesk-externally-recorded-demos-api
+  name: Demodesk Externally recorded demos API
+  description: >-
+    The Externally recorded demos API from Demodesk — 3 operation(s) for externally recorded demos.
+  humanURL: https://demodesk.com/api/docs/index.html
+  baseURL: https://demodesk.com/api/v2
+  tags:
+  - Externally recorded demos
+  properties:
+  - type: OpenAPI
+    url: openapi/demodesk-externally-recorded-demos-api-openapi.yml
+  - type: AsyncAPI
+    url: asyncapi/demodesk-webhooks-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/demodesk-webhooks-asyncapi.yml
+  - type: ErrorCatalog
+    url: errors/demodesk-problem-types.yml
+  - type: DataModel
+    url: data-model/demodesk-data-model.yml
+- aid: demodesk:demodesk-recordings-api
+  name: Demodesk Recordings API
+  description: Endpoints to discover recordings and fetch related artifacts.
+  humanURL: https://demodesk.com/api/docs/index.html
+  baseURL: https://demodesk.com/api/v2
+  tags:
+  - Recordings
+  properties:
+  - type: OpenAPI
+    url: openapi/demodesk-recordings-api-openapi.yml
+  - type: AsyncAPI
+    url: asyncapi/demodesk-webhooks-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/demodesk-webhooks-asyncapi.yml
+  - type: ErrorCatalog
+    url: errors/demodesk-problem-types.yml
+  - type: DataModel
+    url: data-model/demodesk-data-model.yml
+- aid: demodesk:demodesk-users-api
+  name: Demodesk Users API
+  description: Endpoints regarding user management.
+  humanURL: https://demodesk.com/api/docs/index.html
+  baseURL: https://demodesk.com/api/v2
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/demodesk-users-api-openapi.yml
+  - type: AsyncAPI
+    url: asyncapi/demodesk-webhooks-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/demodesk-webhooks-asyncapi.yml
+  - type: ErrorCatalog
+    url: errors/demodesk-problem-types.yml
+  - type: DataModel
+    url: data-model/demodesk-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+# --- Identity / link properties ---
 - type: Website
   url: https://demodesk.com/
+- type: DeveloperPortal
+  url: https://demodesk.com/api/docs/index.html
+- type: Documentation
+  url: https://help.demodesk.com/en/collections/3177803-api-integrations
+- type: APIReference
+  url: https://help.demodesk.com/en/articles/8518816-api-reference
+- type: Support
+  url: https://help.demodesk.com
+- type: Blog
+  url: https://demodesk.com/blog
+- type: Pricing
+  url: https://demodesk.com/pricing
+- type: SignUp
+  url: https://demodesk.com/select/demodesk-gmbh/inbound-website-booking
+- type: PrivacyPolicy
+  url: https://demodesk.com/legal/privacy-policy
+- type: StatusPage
+  url: https://status.demodesk.com
+- type: Roadmap
+  url: https://demodesk.com/blog
+# --- Artifact pointers ---
+- type: Authentication
+  url: authentication/demodesk-authentication.yml
+- type: OAuthScopes
+  url: scopes/demodesk-scopes.yml
+- type: MCPServer
+  url: mcp/demodesk-mcp.yml
+- type: LLMsTxt
+  url: llms/demodesk-llms.txt
+- type: WellKnown
+  url: well-known/demodesk-well-known.yml
+- type: Conventions
+  url: conventions/demodesk-conventions.yml
+- type: Conformance
+  url: conformance/demodesk-conformance.yml
+- type: Compliance
+  url: https://security.demodesk.com
+- type: Lifecycle
+  url: lifecycle/demodesk-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/demodesk-lifecycle.yml
+- type: DomainSecurity
+  url: security/demodesk-domain-security.yml
+- type: TrustCenter
+  url: security/demodesk-trust-center.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
