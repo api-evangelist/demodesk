@@ -49,3 +49,13 @@ components:
     demoEventResponseUpdated: { name: demo.event_response_updated, title: Demo event response updated, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-demo-event-response-updated-payload' } }
     recordingUploaded: { name: recording.uploaded, title: Recording uploaded, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-recording-uploaded-payload' } }
     recordingTranscriptionPostprocessed: { name: recording.transcription_postprocessed, title: Recording transcription postprocessed, payload: { $ref: 'openapi/demodesk-v2-openapi.yml#/components/schemas/webhook-recording-transcription-postprocessed-payload' } }
+
+# --- API Evangelist provenance -------------------------------------------
+x-superseded-by:
+  reason: >-
+    Provider publishes this event surface themselves in as-published OpenAPI; this document was authored by API Evangelist before that source was harvested.
+  published_spec: all/demodesk/openapi/_original/demodesk-v2-openapi.yml
+  published_event_object: webhooks
+  published_events: 10
+  status: superseded
+  reviewed: '2026-07-31'
