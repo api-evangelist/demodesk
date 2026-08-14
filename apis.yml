@@ -32,7 +32,7 @@ x-tier: enriched
 x-tier-reason: real-api-found
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-14'
 tags:
 - Company
 - Sales
@@ -49,7 +49,12 @@ apis:
   description: >-
     The Externally recorded demos API from Demodesk — 3 operation(s) for externally recorded demos.
   humanURL: https://demodesk.com/api/docs/index.html
-  baseURL: https://demodesk.com/api/v2
+  baseURL: https://demodesk.com
+  x-base-note: >-
+    v1 surface — paths are /api/v1/externally_recorded_demos/*, so the base is the
+    host root, NOT /api/v2. Corrected 2026-08-14 from the published v1 Swagger
+    (https://demodesk.com/api/docs/v1/swagger.json), whose templated server
+    https://{defaultHost} declares default: demodesk.com.
   tags:
   - Externally recorded demos
   properties:
@@ -107,6 +112,8 @@ maintainers:
 common:
 - type: Overlay
   url: overlays/demodesk-v1-overlay.yaml
+- type: Overlay
+  url: overlays/demodesk-v2-overlay.yaml
 # --- Identity / link properties ---
 - type: Website
   url: https://demodesk.com/
@@ -123,9 +130,13 @@ common:
 - type: Pricing
   url: https://demodesk.com/pricing
 - type: SignUp
-  url: https://demodesk.com/select/demodesk-gmbh/inbound-website-booking
+  url: https://demodesk.com/manage/auth/register?seatType=ci
 - type: PrivacyPolicy
   url: https://demodesk.com/legal/privacy-policy
+- type: TermsOfService
+  url: https://demodesk.com/legal/terms-of-use
+- type: GitHubOrganization
+  url: https://github.com/demodesk
 - type: StatusPage
   url: https://status.demodesk.com
 - type: Roadmap
@@ -137,8 +148,20 @@ common:
   url: scopes/demodesk-scopes.yml
 - type: MCPServer
   url: mcp/demodesk-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/demodesk-tool-crosswalk.yml
+- type: Plans
+  url: plans/demodesk-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/demodesk-rate-limits.yml
 - type: LLMsTxt
   url: llms/demodesk-llms.txt
+- type: LLMsTxt
+  url: llms/demodesk-mcp-llms.txt
+- type: Packages
+  url: packages/demodesk-packages.yml
+- type: Components
+  url: components/demodesk-components.yml
 - type: WellKnown
   url: well-known/demodesk-well-known.yml
 - type: Conventions
@@ -158,7 +181,7 @@ common:
 - type: AgentSkill
   url: skills/_index.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-14'
+  status: enriched
+  artifacts_added: 3
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
