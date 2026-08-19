@@ -1,0 +1,128 @@
+generated: '2026-08-14'
+method: derived
+source: openapi/_original/demodesk-v2-openapi.yml
+note: >-
+  Unusually strong binding: Demodesk declares the MCP tool name ON the REST
+  operation itself, via an `x-mcp` extension block (toolName, title,
+  description, readOnlyHint/idempotentHint/destructiveHint/openWorldHint,
+  timeoutMs) on all 8 v2 operations. The crosswalk is therefore not a
+  name-similarity guess — the provider states the mapping in its own published
+  contract, so every row is confidence: high. Each tool inherits the parameters
+  and requestBody of its backing operation as its real inputSchema.
+  The live tool list at https://demodesk.com/mcp is OAuth2-gated (401
+  anonymous), so tool NAMES and hints come from the spec rather than from
+  tools/list; a future authenticated introspection could confirm arity.
+surfaces:
+  openapi: openapi/_original/demodesk-v2-openapi.yml
+  openapi_refined:
+  - openapi/demodesk-recordings-api-openapi.yml
+  - openapi/demodesk-users-api-openapi.yml
+  - openapi/demodesk-externally-recorded-demos-api-openapi.yml
+  mcp:
+    url: https://demodesk.com/mcp
+    transport: http
+    gated: true
+    gate: OAuth2 (authorization_code + PKCE S256); anonymous POST returns 401
+  graphql: null
+crosswalk:
+- tool: users_get_me
+  category: users
+  rest: [getCurrentUser]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false, timeoutMs: 5000}
+  note: Resolves the authenticated identity so "my meetings" style prompts can be disambiguated.
+- tool: users_list
+  category: users
+  rest: [listUsers]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false, timeoutMs: 5000}
+- tool: recordings_list
+  category: recordings
+  rest: [listRecordings]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false, timeoutMs: 30000}
+  note: >-
+    Carries the only endpoint-specific rate limit (60/min per key). Provider
+    steers agents to people filters (host_eq, attendee_eq, accepting `me`)
+    rather than internal ids.
+- tool: recordings_get
+  category: recordings
+  rest: [getRecording]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false, timeoutMs: 45000}
+- tool: recordings_get_transcript
+  category: recordings
+  rest: [getRecordingTranscript]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false}
+- tool: recordings_batch_get_transcripts
+  category: recordings
+  rest: [batchGetRecordingsTranscripts]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false}
+  note: Batch sibling of recordings_get_transcript — the fan-out path for multi-call analysis.
+- tool: recordings_list_summaries
+  category: recordings
+  rest: [listRecordingSummaries]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false}
+- tool: recordings_list_scorecards
+  category: recordings
+  rest: [listRecordingScorecards]
+  binding: x-mcp.toolName declared on the operation
+  confidence: high
+  hints: {readOnly: true, idempotent: true, destructive: false, openWorld: false}
+mcp_only: []
+rest_only:
+- operation: POST /api/v1/externally_recorded_demos
+  operationId: null
+  reason: >-
+    v1-only surface. The deprecated v1 spec declares no operationId and no
+    x-mcp block, so it is unreachable from the MCP server. This is also the
+    only WRITE path Demodesk publishes.
+  source: openapi/demodesk-externally-recorded-demos-api-openapi.yml
+- operation: POST /api/v1/externally_recorded_demos/create_from_mobile_recording_upload
+  operationId: null
+  reason: v1-only surface; no operationId, no x-mcp block.
+  source: openapi/demodesk-externally-recorded-demos-api-openapi.yml
+- operation: POST /api/v1/externally_recorded_demos/create_from_recording_upload
+  operationId: null
+  reason: v1-only surface; no operationId, no x-mcp block.
+  source: openapi/demodesk-externally-recorded-demos-api-openapi.yml
+coverage:
+  mcp_tools: 8
+  mcp_tools_advertised: 7
+  rest_operations_v2: 8
+  rest_operations_v1: 3
+  mapped: 8
+  mcp_only: 0
+  rest_only: 3
+  v2_coverage: '8/8 (100%)'
+  note: >-
+    Every v2 operation is exposed as an MCP tool, and every MCP tool is backed
+    by a v2 operation — a 1:1 surface. The MCP server is entirely READ-ONLY:
+    all 8 tools carry readOnlyHint: true, and the only write operations
+    Demodesk publishes live on the deprecated v1 API, which MCP does not reach.
+    Advertised count is 7 because https://mcp.demodesk.ai/llms.txt omits
+    `users_list`; the OpenAPI declares it. See mcp/demodesk-mcp.yml.
+x-drift:
+  checked: '2026-08-14'
+  source: https://demodesk.com/api/docs/v2/generated.yaml
+  observed: >-
+    Between the 2026-07-18 capture and 2026-08-14, Demodesk flipped
+    `x-mcp.openWorldHint` from true to false on ALL EIGHT v2 operations — the
+    only change in the entire spec. Nothing else moved: same 8 paths, same 10
+    webhooks, same schemas, byte-identical v1. The hints in this crosswalk and in
+    openapi/ have been resynced to the live contract. Semantically the provider
+    is now telling agents these tools operate over a CLOSED world (the caller's
+    own Demodesk tenant) rather than an open one — a correction that tightens how
+    a client should reason about tool results, and a sign the x-mcp block is
+    maintained rather than written once.
+  provider_changelog: none published (https://demodesk.com/changelog -> 404)

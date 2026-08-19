@@ -1,0 +1,2323 @@
+{
+  "item": [
+    {
+      "id": "b0523464-945b-4f58-856b-41a4c9a1661c",
+      "name": "Recordings",
+      "description": {
+        "content": "Endpoints to discover recordings and fetch related artifacts.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ab889eb4-a5d0-4e25-b995-aa712620c67d",
+          "name": "List recordings",
+          "request": {
+            "name": "List recordings",
+            "description": {
+              "content": "Returns recordings **visible to the owner of the API key**.\n\nIf you want to access \"all\" recordings, use an admin user who is added to all restricted groups. Recordings with explicit `only_me` permission are only accessible by said user.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n- Endpoint-specific: 60 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recordings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_lt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_lteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_gt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_gteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[created_at_cont]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_lt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_lteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_gt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_gteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[updated_at_cont]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_lt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_lteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_gt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_gteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_start_date_cont]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_lt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_lteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_gt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_gteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[duration_cont]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_lt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_lteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_gt]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_gteq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[demo_id_cont]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[host_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[host_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[attendee_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[attendee_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[status_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[status_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[status_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[status_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[postprocessing_status_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[postprocessing_status_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[postprocessing_status_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[postprocessing_status_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[group_id_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[group_id_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[access_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[access_not_eq]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[access_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[access_not_in]",
+                  "value": "<string>",
+                  "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Opaque cursor returned by a previous list response."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Page size for recordings list."
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "359635fe-4173-408d-b7aa-69246fd76dc1",
+              "name": "Recordings fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[status_eq]",
+                      "value": "ready"
+                    },
+                    {
+                      "key": "filter[postprocessing_status_eq]",
+                      "value": "done"
+                    },
+                    {
+                      "key": "filter[created_at_gteq]",
+                      "value": "2026-03-04T00:00:00Z"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"recordingToken\": \"string\",\n      \"recordingId\": \"string\",\n      \"demoId\": \"string\",\n      \"userId\": 5293,\n      \"name\": \"string\",\n      \"recordingWebUrl\": \"string\",\n      \"temporaryDirectUrl\": null,\n      \"status\": \"ready\",\n      \"createdAt\": \"1951-03-29T13:07:07.992Z\",\n      \"updatedAt\": \"2008-04-23T20:28:10.921Z\",\n      \"demoStartDate\": \"1995-03-07T21:01:49.476Z\",\n      \"durationMs\": 3019,\n      \"postprocessingStatus\": \"failed\",\n      \"access\": \"company_wide\",\n      \"groupIds\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"recordingToken\": \"string\",\n      \"recordingId\": \"string\",\n      \"demoId\": \"string\",\n      \"userId\": 3115,\n      \"name\": null,\n      \"recordingWebUrl\": \"string\",\n      \"temporaryDirectUrl\": null,\n      \"status\": \"ready\",\n      \"createdAt\": \"2006-09-24T15:11:54.070Z\",\n      \"updatedAt\": \"1961-08-05T20:18:49.223Z\",\n      \"demoStartDate\": \"2008-02-13T16:52:55.199Z\",\n      \"durationMs\": null,\n      \"postprocessingStatus\": \"failed\",\n      \"access\": \"host_only\",\n      \"groupIds\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"meta\": {\n    \"hasNext\": false,\n    \"limit\": 742,\n    \"nextCursor\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d7d7759-7aa9-42f5-821c-a86ec9ff78aa",
+              "name": "Request validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[status_eq]",
+                      "value": "ready"
+                    },
+                    {
+                      "key": "filter[postprocessing_status_eq]",
+                      "value": "done"
+                    },
+                    {
+                      "key": "filter[created_at_gteq]",
+                      "value": "2026-03-04T00:00:00Z"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f60bdafa-a5f4-4f52-8c4d-81231990fef3",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[status_eq]",
+                      "value": "ready"
+                    },
+                    {
+                      "key": "filter[postprocessing_status_eq]",
+                      "value": "done"
+                    },
+                    {
+                      "key": "filter[created_at_gteq]",
+                      "value": "2026-03-04T00:00:00Z"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e651f5d-c527-4f03-bd4d-09473bd21752",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[status_eq]",
+                      "value": "ready"
+                    },
+                    {
+                      "key": "filter[postprocessing_status_eq]",
+                      "value": "done"
+                    },
+                    {
+                      "key": "filter[created_at_gteq]",
+                      "value": "2026-03-04T00:00:00Z"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "9404"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13b7f207-0bea-4360-8010-b79feb99d451",
+          "name": "Get recording details",
+          "request": {
+            "name": "Get recording details",
+            "description": {
+              "content": "Returns a single recording with detailed metadata and derived stats.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recordings",
+                ":token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) Public recording token identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fb2d0312-99c3-4482-a5fe-42937691788d",
+              "name": "Recording fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"access\": \"host_and_participants\",\n    \"attendeeClassification\": \"null\",\n    \"audioOnly\": true,\n    \"createdAt\": \"1981-03-19T06:59:49.124Z\",\n    \"demoId\": \"string\",\n    \"demoStartDate\": \"1953-09-19T00:01:47.602Z\",\n    \"durationMs\": null,\n    \"groups\": [\n      {\n        \"groupId\": \"string\",\n        \"groupName\": \"string\"\n      },\n      {\n        \"groupId\": \"string\",\n        \"groupName\": \"string\"\n      }\n    ],\n    \"host\": {\n      \"userId\": \"string\",\n      \"displayName\": \"string\",\n      \"email\": \"string\"\n    },\n    \"meetingLocation\": {\n      \"kind\": \"string\",\n      \"value\": null\n    },\n    \"name\": \"string\",\n    \"participants\": [\n      {\n        \"participantId\": \"string\",\n        \"displayName\": \"string\",\n        \"email\": null,\n        \"permission\": \"team\",\n        \"attended\": false\n      },\n      {\n        \"participantId\": \"string\",\n        \"displayName\": \"string\",\n        \"email\": \"string\",\n        \"permission\": \"customer\",\n        \"attended\": false\n      }\n    ],\n    \"postprocessingStatus\": \"too_short\",\n    \"recordingId\": \"string\",\n    \"recordingToken\": \"string\",\n    \"recordingWebUrl\": \"string\",\n    \"statistics\": {\n      \"engagementScore\": null,\n      \"feedbackScore\": null\n    },\n    \"status\": \"pending\",\n    \"temporaryDirectUrl\": null,\n    \"updatedAt\": \"1974-09-03T14:51:52.198Z\",\n    \"userId\": 6961,\n    \"groupIds\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3db26d5c-13f1-4df8-a988-259ac1f326af",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa220fc5-6525-4882-9704-0bd053687061",
+              "name": "Recording or related resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65393f10-a704-452c-bc6b-112d360a21d9",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "9404"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0549d11f-5882-454e-9709-6cfd62a88ca6",
+          "name": "Get recording transcript",
+          "request": {
+            "name": "Get recording transcript",
+            "description": {
+              "content": "Returns the full transcript grouped into paragraphs and sentences.\n\nUse the optional `lang` query parameter to request a translated transcript.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recordings",
+                ":token",
+                "transcript"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lang",
+                  "value": "<string>",
+                  "description": "Translate transcript on-the-fly to the provided language."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json",
+                  "description": "Whether to return structured transcript JSON or plain text."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) Public recording token identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9942b3a4-a219-4b66-a636-a48308d0113b",
+              "name": "Transcript fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"language\": \"string\",\n    \"paragraphs\": [\n      {\n        \"startInSeconds\": 9085.808129474744,\n        \"endInSeconds\": 8024.521824201845,\n        \"speaker\": {\n          \"displayName\": null\n        },\n        \"sentences\": [\n          {\n            \"startInSeconds\": 9091.597429772617,\n            \"endInSeconds\": 7893.959230561549,\n            \"text\": \"string\"\n          },\n          {\n            \"startInSeconds\": 9360.12089795292,\n            \"endInSeconds\": 6100.2388506669695,\n            \"text\": \"string\"\n          }\n        ]\n      },\n      {\n        \"startInSeconds\": 6238.6508302948905,\n        \"endInSeconds\": 3160.9375379435855,\n        \"speaker\": {\n          \"displayName\": null\n        },\n        \"sentences\": [\n          {\n            \"startInSeconds\": 4539.908387915181,\n            \"endInSeconds\": 8986.110823198183,\n            \"text\": \"string\"\n          },\n          {\n            \"startInSeconds\": 9706.736061680745,\n            \"endInSeconds\": 8323.004055104766,\n            \"text\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36ac908f-955d-42c5-8e44-ffe3c1106edd",
+              "name": "Transcript is still being processed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6748c4ba-42d0-4174-861d-f3385fb5ad41",
+              "name": "Transcript exists but is empty or too short.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ae215fe8-1257-42f3-bb42-0fe8740e650f",
+              "name": "Request validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e7414f3-f07d-49b2-9d8c-a01f3cfb79f9",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1334298-ca05-42f3-8c7c-9d6b7b752fc7",
+              "name": "Recording or related resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e1a5ffa-dfe2-469c-926d-bd4207d89ea9",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lang",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "9404"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "32e0d66f-aa15-44fa-b7ea-89deeefc0fed",
+          "name": "Get transcripts in batch",
+          "request": {
+            "name": "Get transcripts in batch",
+            "description": {
+              "content": "Returns transcripts for `n` recordings (`n` <= 100).\nResults are returned with a per-recording status.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transcripts",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recordingTokens\": [\n    \"<string>\"\n  ],\n  \"lang\": \"<string>\",\n  \"format\": \"json\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7e1121d8-6954-4972-b2a4-5a580c659a70",
+              "name": "Transcript batch fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transcripts",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recordingTokens\": [\n    \"<string>\"\n  ],\n  \"lang\": \"<string>\",\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"recordingToken\": \"string\",\n      \"status\": \"not_requested\",\n      \"transcript\": {\n        \"language\": \"string\",\n        \"paragraphs\": [\n          {\n            \"startInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"speaker\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sentences\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"startInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"speaker\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sentences\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"recordingToken\": \"string\",\n      \"status\": \"processing\",\n      \"transcript\": {\n        \"language\": \"string\",\n        \"paragraphs\": [\n          {\n            \"startInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"speaker\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sentences\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"startInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endInSeconds\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"speaker\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sentences\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    }\n  ],\n  \"meta\": {\n    \"requestedCount\": 2227\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4d23c72-3da6-40db-bfae-44b51da92173",
+              "name": "Request validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transcripts",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recordingTokens\": [\n    \"<string>\"\n  ],\n  \"lang\": \"<string>\",\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a459680a-1c1e-4f8b-8cbc-18d9c51796e1",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transcripts",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recordingTokens\": [\n    \"<string>\"\n  ],\n  \"lang\": \"<string>\",\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "866e45bb-bde9-4747-92ac-bde3f420168a",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transcripts",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recordingTokens\": [\n    \"<string>\"\n  ],\n  \"lang\": \"<string>\",\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "9404"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46525c95-e007-40b7-a1fb-f80b99a1cbf8",
+          "name": "List recording summaries",
+          "request": {
+            "name": "List recording summaries",
+            "description": {
+              "content": "Returns generated summaries associated with the recording.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recordings",
+                ":token",
+                "summaries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) Public recording token identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "994d15f6-4c91-411b-a7e7-0abc50d98cc9",
+              "name": "Summaries fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "summaries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"summaryId\": \"string\",\n      \"promptId\": \"string\",\n      \"promptName\": null,\n      \"languageCode\": \"string\",\n      \"content\": \"string\",\n      \"htmlContent\": null,\n      \"createdAt\": \"1952-10-08T21:39:47.973Z\",\n      \"updatedAt\": \"2011-05-29T23:12:59.626Z\"\n    },\n    {\n      \"summaryId\": \"string\",\n      \"promptId\": null,\n      \"promptName\": \"string\",\n      \"languageCode\": \"string\",\n      \"content\": \"string\",\n      \"htmlContent\": null,\n      \"createdAt\": \"1982-12-01T10:37:10.022Z\",\n      \"updatedAt\": \"1980-03-09T11:10:29.979Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "328de463-0a24-4bf0-88a7-a66cc9c340ed",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "summaries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a708b19f-8c45-4c68-8e4c-7b084ee8db69",
+              "name": "Recording or related resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "summaries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "006daf9b-3efe-4720-a4bc-b19b834edfa0",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "summaries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "9404"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d86c5b27-b467-4ba1-93d0-090179659c75",
+          "name": "List recording scorecards",
+          "request": {
+            "name": "List recording scorecards",
+            "description": {
+              "content": "Returns non-deleted scorecards associated with the recording.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recordings",
+                ":token",
+                "scorecards"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) Public recording token identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9ad670be-7c2b-458e-99b9-3937f80aa951",
+              "name": "Scorecards fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "scorecards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"scorecardId\": \"string\",\n      \"templateId\": null,\n      \"templateName\": \"string\",\n      \"score\": 4,\n      \"comment\": \"string\",\n      \"languageCode\": null,\n      \"giverUserId\": 2113,\n      \"receiverUserId\": 6822,\n      \"createdAt\": \"1987-02-19T12:06:11.427Z\",\n      \"updatedAt\": \"1961-05-17T02:20:02.489Z\",\n      \"questions\": [\n        {\n          \"questionId\": \"string\",\n          \"position\": 7504,\n          \"name\": null,\n          \"text\": \"string\",\n          \"criteria\": \"string\",\n          \"score\": null,\n          \"comment\": \"string\",\n          \"rawTimestamps\": null\n        },\n        {\n          \"questionId\": \"string\",\n          \"position\": 9959,\n          \"name\": null,\n          \"text\": \"string\",\n          \"criteria\": null,\n          \"score\": 1,\n          \"comment\": \"string\",\n          \"rawTimestamps\": null\n        }\n      ]\n    },\n    {\n      \"scorecardId\": \"string\",\n      \"templateId\": \"string\",\n      \"templateName\": \"string\",\n      \"score\": null,\n      \"comment\": \"string\",\n      \"languageCode\": null,\n      \"giverUserId\": null,\n      \"receiverUserId\": 3523,\n      \"createdAt\": \"1978-09-11T17:37:06.651Z\",\n      \"updatedAt\": \"1953-05-13T03:24:05.500Z\",\n      \"questions\": [\n        {\n          \"questionId\": \"string\",\n          \"position\": 8401,\n          \"name\": null,\n          \"text\": \"string\",\n          \"criteria\": null,\n          \"score\": 2,\n          \"comment\": null,\n          \"rawTimestamps\": null\n        },\n        {\n          \"questionId\": \"string\",\n          \"position\": 911,\n          \"name\": null,\n          \"text\": \"string\",\n          \"criteria\": \"string\",\n          \"score\": null,\n          \"comment\": \"string\",\n          \"rawTimestamps\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b01cd42-322c-4ae9-a793-b0b1908784a6",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "scorecards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1f83185-bd33-40b8-9ecc-dfe044360899",
+              "name": "Recording or related resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "scorecards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ab3cd38-73a1-4f1c-9eee-5eeec69b893f",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recordings",
+                    ":token",
+                    "scorecards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) Public recording token identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "9404"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demodesk.com",
+      "key": "defaultHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{defaultHost}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "de784282-b4ab-4369-863c-321e3a0f9b51",
+    "name": "API V1 Externally recorded demos Recordings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Endpoints to discover recordings and fetch related artifacts.",
+      "type": "text/plain"
+    }
+  }
+}

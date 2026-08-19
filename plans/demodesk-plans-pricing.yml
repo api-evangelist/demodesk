@@ -1,0 +1,91 @@
+generated: '2026-08-13'
+method: searched
+source: https://demodesk.com/pricing
+checked: '2026-08-13'
+note: >-
+  Read from Demodesk's own published pricing page. Two self-serve seat tiers
+  plus a sales-gated Enterprise tier. Notably the MCP server is bundled from the
+  ENTRY tier (Capture) rather than being an Enterprise add-on — the agent
+  surface is available to the cheapest paying customer. Custom agents are the
+  one usage-priced component; the page does not publish that rate.
+currency: EUR
+billing_model: per-seat
+plan_count: 3
+plans:
+- name: Capture
+  price: 25
+  currency: EUR
+  period: month
+  unit: per user
+  annual_discount: '17%'
+  seat_limit: 30
+  seat_note: Up to 30 licenses; beyond that the page routes to Enterprise.
+  includes:
+  - GDPR-compliant recording & transcription across video, phone, in-person and field
+  - AI summaries
+  - Meeting tags
+  - MCP server
+  - Custom agents (usage-based pricing)
+  - Free viewer seats
+- name: Coaching & AI
+  price: 49
+  currency: EUR
+  period: month
+  unit: per user
+  annual_discount: '17%'
+  seat_limit: 30
+  includes:
+  - Everything in Capture
+  - AI Coach with custom scorecards
+  - CRM Concierge
+  - Deal Insights & Risk Alerts
+  - AI Analyst
+  - Reports & Team Analytics Dashboard
+  - All integrations
+- name: Enterprise
+  price: null
+  price_model: custom
+  currency: EUR
+  period: null
+  unit: per user
+  seat_minimum: 30
+  contact: Talk to sales
+  includes:
+  - Everything in Coaching & AI
+  - SSO (Okta, Azure AD, Google)
+  - Custom onboarding
+  - Dedicated account manager
+  - Custom DPA documentation
+  - Multi-entity rollouts
+  - Higher API limits
+trial:
+  available: true
+  length_days: 14
+  credit_card_required: false
+api_limits_by_plan:
+  published: false
+  note: >-
+    Enterprise is described as including "higher API limits", but no tier
+    publishes a number. The only published figures are the global 120 req/min
+    and endpoint-specific 60 req/min per API key carried in the OpenAPI —
+    see rate-limits/demodesk-rate-limits.yml. Which tier those defaults apply
+    to is not stated.
+overage:
+  published: false
+  note: Custom agents are described as usage-based, but no rate card is published.
+x-mcp-availability:
+  checked: '2026-08-14'
+  source: https://mcp.demodesk.ai/llms.txt
+  statement: '"Included with every Demodesk plan at no extra cost."'
+  note: >-
+    Corroborates the pricing page: the MCP server is not gated behind a tier.
+    Confirmed from the provider's own MCP microsite, a second independent
+    surface.
+x-discrepancy:
+  note: >-
+    The provider's own llms.txt (captured 2026-07-18, in llms/demodesk-llms.txt)
+    advertises a free Viewer tier and Coaching & AI at EUR 59/month monthly /
+    EUR 49 annual. The live pricing page on 2026-08-13 shows a EUR 25 Capture
+    tier, Coaching & AI at EUR 49, and folds free viewers in as a Capture
+    feature rather than a standalone plan. Recording both: the pricing page is
+    authoritative and the llms.txt has drifted stale.

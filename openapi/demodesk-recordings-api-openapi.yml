@@ -37,7 +37,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 30000
       summary: List recordings
       description: 'Returns recordings **visible to the owner of the API key**.
@@ -89,7 +89,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 45000
       summary: Get recording details
       description: 'Returns a single recording with detailed metadata and derived stats.
@@ -134,7 +134,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 20000
       summary: Get recording transcript
       description: 'Returns the full transcript grouped into paragraphs and sentences.
@@ -209,7 +209,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 60000
       summary: Get transcripts in batch
       description: 'Returns transcripts for `n` recordings (`n` <= 100).
@@ -260,7 +260,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 30000
       summary: List recording summaries
       description: 'Returns generated summaries associated with the recording.
@@ -305,7 +305,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 15000
       summary: List recording scorecards
       description: 'Returns non-deleted scorecards associated with the recording.

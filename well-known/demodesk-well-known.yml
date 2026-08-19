@@ -18,3 +18,50 @@ documents:
   status: 404
 - path: /.well-known/ai-plugin.json
   status: 404
+- path: /.well-known/agent-card.json
+  status: 404
+- path: /.well-known/agent.json
+  status: 404
+rechecked: '2026-08-14'
+additional_hosts:
+- host: https://mcp.demodesk.ai
+  reason: MCP microsite named in https://demodesk.com/llms.txt
+  documents:
+  - path: /llms.txt
+    status: 200
+    file: ../llms/demodesk-mcp-llms.txt
+    note: Provider-authored MCP tool list, install matrix and access model.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+- host: https://marketplace.demodesk.ai
+  reason: AI skills/agents marketplace named in https://demodesk.com/llms.txt
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://security.demodesk.com
+  reason: trust center host
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    served: text/html
+    document: false
+    note: >-
+      NOT a security.txt. The trust-center SPA answers 200 with its HTML shell
+      for any path, so this is a soft-200, not a served RFC 9116 document.
+      Recorded as a miss — no SecurityTxt pointer is wired.
+x-agent-card:
+  found: false
+  note: >-
+    No A2A agent card on any Demodesk host. Both the 0.3+ path
+    (/.well-known/agent-card.json) and the legacy /.well-known/agent.json return
+    404 on demodesk.com, mcp.demodesk.ai and marketplace.demodesk.ai. Per
+    pipeline rule, nothing was written to a2a/ and no AgentCard pointer exists —
+    the agent surface here is MCP, not A2A.

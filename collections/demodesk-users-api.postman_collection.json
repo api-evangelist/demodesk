@@ -1,0 +1,517 @@
+{
+  "item": [
+    {
+      "id": "e09cc3ec-c20f-4095-a536-f27f266d54cf",
+      "name": "Users",
+      "description": {
+        "content": "Endpoints regarding user management.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c5ad5d14-623c-4e9b-bbb1-d794e66d66d0",
+          "name": "Get current user",
+          "request": {
+            "name": "Get current user",
+            "description": {
+              "content": "Returns the user represented by the provided API key or OAuth token.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "me"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a2d97ffa-3748-4d3c-abcd-0d7679e8fea0",
+              "name": "Current user fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"XE8Yn8PT6@GYlGMCnaiwVa.hgf\",\n    \"role\": \"company_admin\",\n    \"locale\": \"string\",\n    \"timeZone\": \"string\",\n    \"groups\": [\n      {\n        \"groupId\": \"string\",\n        \"groupName\": \"string\"\n      },\n      {\n        \"groupId\": \"string\",\n        \"groupName\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "369e257a-f88f-4c99-a349-fefebe2d540b",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b79f8655-e355-49b4-94e0-4b17525e7e14",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "2429"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a636267e-1a00-4664-b1b4-3e6f298eeeff",
+          "name": "List users",
+          "request": {
+            "name": "List users",
+            "description": {
+              "content": "Returns active users visible to the authenticated user.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Case-insensitive partial search across full name and email.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Opaque cursor returned by a previous list response."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Page size for recordings list."
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1f472935-4370-491e-90ac-2d9e4c5fdfaf",
+              "name": "Users fetched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "max"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"email\": \"3eWpBt@nYtcAhxqQVSfLPbzMncfiSZAOKoPzuN.bq\",\n      \"role\": \"user\",\n      \"locale\": \"string\",\n      \"timeZone\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"email\": \"uoUieCaJSv@lnzyWYVLVNTlMAbG.gk\",\n      \"role\": \"user\",\n      \"locale\": \"string\",\n      \"timeZone\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"hasNext\": true,\n    \"limit\": 4072,\n    \"nextCursor\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8627328-3411-41ae-862c-7f93466be7b6",
+              "name": "Request validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "max"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f3fd9ad-5fa6-472c-bf44-43b19063ad8a",
+              "name": "API key is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "max"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"requestId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea531bdd-c835-44fd-9423-0e82d442fdea",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "max"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next request is allowed.",
+                  "key": "Retry-After",
+                  "value": "2429"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demodesk.com",
+      "key": "defaultHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{defaultHost}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "95d90fad-171b-41e5-bcfb-9cb798f927de",
+    "name": "API V1 Externally recorded demos Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Endpoints regarding user management.",
+      "type": "text/plain"
+    }
+  }
+}

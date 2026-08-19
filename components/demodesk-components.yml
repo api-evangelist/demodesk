@@ -1,0 +1,100 @@
+generated: '2026-08-14'
+method: searched
+source: https://help.demodesk.com/en/articles/8321748-add-a-booking-page-or-routing-form-on-my-website
+docs:
+- https://help.demodesk.com/en/articles/8321748-add-a-booking-page-or-routing-form-on-my-website
+- https://help.demodesk.com/en/articles/5830559-notifying-the-parent-window-of-interactions-on-the-booking-page
+checked: '2026-08-14'
+note: >-
+  Demodesk's client-side surface is an EMBEDDABLE SCHEDULING WIDGET, not a
+  component library. Two prebuilt hosted surfaces — a booking page and a routing
+  form — are dropped into a customer's site with a Demodesk-generated script
+  snippet that mounts an iframe, and both talk back to the host page over
+  `window.postMessage()` with three named events. That postMessage contract is
+  the interesting part: it is a real, documented, named client-side event API
+  that exists nowhere in the OpenAPI, so an integrator reading only the REST spec
+  would never find it. Distinct from packages/ (there is no npm loader to
+  install — the snippet is generated per meeting-type inside the Demodesk
+  dashboard) and distinct from the webhook surface in asyncapi/ (server-to-server
+  vs browser-to-browser).
+component_count: 2
+loader:
+  type: generated-script-snippet
+  distribution: >-
+    Copied from the Demodesk dashboard per meeting type (Meeting type >
+    Scheduling Page > "Add scheduling page on website") or per routing form
+    (routing form > Save & Preview). No public CDN URL, no npm package, and no
+    version is exposed to the embedder — so a consumer cannot pin or tell what
+    build they are running.
+  versioned: false
+  mount: iframe
+  min_container_width_px: 577
+  min_width_note: >-
+    Below 577px the widget renders its mobile view; height is adjusted
+    automatically by the embed.
+families:
+- family: Scheduling
+  components:
+  - name: Booking page
+    kind: hosted-embed
+    mount: iframe (script snippet) or direct link opened with window.open
+    direct_url_pattern: https://demodesk.com/book/<event-type-slug>
+    description: >-
+      A meeting-type booking surface — availability, booking questions, and
+      confirmation — inserted into the customer's own page.
+    branding: >-
+      Appearance is customizable through Demodesk's whitelabel / "Customize
+      branding" settings.
+    docs: https://help.demodesk.com/en/articles/8321748-add-a-booking-page-or-routing-form-on-my-website
+  - name: Routing form
+    kind: hosted-embed
+    mount: iframe (script snippet)
+    description: >-
+      A qualification form that precedes a booking page and routes the visitor to
+      the right team member based on their answers.
+    branding: same whitelabel settings as the booking page
+    docs: https://help.demodesk.com/en/articles/8321748-add-a-booking-page-or-routing-form-on-my-website
+client_events:
+  transport: window.postMessage()
+  envelope: '{ event: "demodesk.<name>", data: { ... } }'
+  detection: >-
+    Documented guard is `e.data.event && e.data.event.indexOf("demodesk") === 0`.
+  new_tab_caveat: >-
+    To receive events when the booking page is opened in a new tab, the page must
+    be opened with `window.open(url, "DemodeskBookingPage", "noopener=false")` —
+    a plain target="_blank" link gets rel=noopener from the browser, which severs
+    the opener reference and silently drops every event.
+  events:
+  - name: demodesk.routingFormSubmitted
+    when: The visitor completed and submitted a routing form.
+    applies_to: routing links only (not plain meeting types)
+    payload_fields:
+    - demoTemplateRoutingSlug
+    - form
+    - rawForm
+    - redirectUrl
+    note: >-
+      `rawForm` maps routing question IDs to selected option IDs; `form` is the
+      same data with token slugs as keys and option labels as values.
+  - name: demodesk.timeSlotSelected
+    when: The visitor picked a time and is forwarded to the booking form.
+  - name: demodesk.meetingScheduled
+    when: A meeting was successfully booked.
+    payload_fields:
+    - meetingDate
+    - eventTypeSlug
+    - hostEmail
+    - isReschedule
+    - form
+  uses:
+  - Conversion tracking in Google Analytics / Google Tag Manager
+  - HubSpot contact + web-analytics merge
+  - Show/hide host-page content after booking
+  - Redirect after booking
+related:
+  webhooks: asyncapi/demodesk-webhooks-asyncapi.yml
+  note: >-
+    `demodesk.meetingScheduled` in the browser and `demo.scheduled` on the
+    webhook channel describe the same real-world event from two different
+    vantage points. Neither document references the other; an integrator wiring
+    both should expect to see the booking twice.

@@ -1,52 +1,163 @@
-generated: '2026-07-18'
+generated: '2026-08-14'
 method: searched
 status: published
-source: https://demodesk.com/api/docs/index.html
+source: https://mcp.demodesk.ai/llms.txt
+sources:
+- https://mcp.demodesk.ai/llms.txt
+- https://demodesk.com/api/docs/v2/generated.yaml
+- https://help.demodesk.com/en/articles/15080605-demodesk-mcp
+- https://demodesk.com/mcp (live anonymous tools/list probe, 401)
 server:
   name: demodesk
   transport: http
   url: https://demodesk.com/mcp
-  description: |
-    Official hosted MCP server. Exposes the same capabilities as the Demodesk
-    Public v2 API to AI agents. Documented in the v2 OpenAPI description.
+  landing: https://mcp.demodesk.ai/
+  help: https://help.demodesk.com/en/articles/15080605-demodesk-mcp
+  description: >-
+    Official hosted, read-only MCP server. Exposes Demodesk meeting recordings,
+    transcripts, AI summaries and coaching scorecards to any MCP client. The
+    company runs a dedicated microsite for it at https://mcp.demodesk.ai/ which
+    publishes its own llms.txt — a provider-authored tool list, install matrix
+    and access model. That microsite is the strongest MCP documentation surface
+    in this profile and it is NOT linked from the API reference.
+  read_only: true
+  read_only_source: >-
+    "The Demodesk MCP is a read-only Model Context Protocol server" —
+    https://mcp.demodesk.ai/llms.txt
+  plan_availability: >-
+    "Included with every Demodesk plan at no extra cost." The pricing page bundles
+    the MCP server from the entry Capture tier (EUR 25/user/month), not as an
+    enterprise add-on. See plans/demodesk-plans-pricing.yml.
   authorization:
     type: oauth2
     discovery: https://demodesk.com/.well-known/oauth-protected-resource
     authorization_server: https://demodesk.com/.well-known/oauth-authorization-server
-    flows: [authorization_code]
+    flows:
+    - authorization_code
     pkce: S256
     dynamic_client_registration: https://demodesk.com/oauth/register
-    scopes: [mcp:tools]
+    scopes:
+    - mcp:tools
+    permissions: >-
+      Permissions inherit from the signed-in Demodesk account. A manual API key
+      is available via Settings > Integrations for clients that cannot do OAuth.
+    revocation: >-
+      Disconnecting the connector in the AI client triggers OAuth revocation on
+      Demodesk's backend immediately.
     note: >-
-      Probing https://demodesk.com/mcp returns HTTP 401 (auth required),
-      confirming the endpoint exists and enforces OAuth2.
+      Anonymous POST to https://demodesk.com/mcp returns HTTP 401 with
+      {"error":{"code":"missing_bearer_token"}} plus a self-describing "mcp"
+      object naming the required scope and both metadata URLs — a well-formed
+      gate, not a dead endpoint.
 tools:
-  # Candidate tool surface mirrors the v2 API operations (the MCP server exposes
-  # "the same capabilities of this API"). Not enumerated verbatim from a manifest.
-  status: candidate
-  derived_from: openapi/demodesk-v2-openapi.yml
+  status: published
+  count_published: 7
+  count_declared_in_openapi: 8
+  source: https://mcp.demodesk.ai/llms.txt (## Tools)
+  corroborating_source: >-
+    x-mcp extension blocks (toolName, title, description, readOnlyHint,
+    idempotentHint, destructiveHint, openWorldHint, timeoutMs) declared on every
+    v2 operation in openapi/_original/demodesk-v2-openapi.yml
+  crosswalk: mcp/demodesk-tool-crosswalk.yml
+  live_introspection: gated
+  note: >-
+    Two provider sources, and they do not agree. The MCP microsite's llms.txt
+    lists SEVEN tools; the published v2 OpenAPI carries x-mcp blocks on EIGHT
+    operations. The extra one is `users_list` (listUsers) — declared in the
+    contract, absent from the advertised tool list. Recorded as published:7 /
+    declared:8 rather than silently picking one, because a live `tools/list` is
+    OAuth2-gated and neither source can be confirmed against the running server
+    anonymously. Tool names are provider-declared throughout; an earlier round of
+    this pipeline invented snake_case names and those have been gone since
+    2026-08-13.
   list:
-  - name: get_current_user
-    description: Get the current user
-    source_operation: openapi/demodesk-v2-openapi.yml#getCurrentUser
-  - name: list_users
-    description: List users
-    source_operation: openapi/demodesk-v2-openapi.yml#listUsers
-  - name: list_recordings
-    description: List recordings
-    source_operation: openapi/demodesk-v2-openapi.yml#listRecordings
-  - name: get_recording
-    description: Get recording details
-    source_operation: openapi/demodesk-v2-openapi.yml#getRecording
-  - name: get_recording_transcript
-    description: Get recording transcript
-    source_operation: openapi/demodesk-v2-openapi.yml#getRecordingTranscript
-  - name: batch_get_transcripts
-    description: Get transcripts in batch
-    source_operation: openapi/demodesk-v2-openapi.yml#batchGetRecordingsTranscripts
-  - name: list_recording_summaries
-    description: List recording summaries
-    source_operation: openapi/demodesk-v2-openapi.yml#listRecordingSummaries
-  - name: list_recording_scorecards
-    description: List recording scorecards
-    source_operation: openapi/demodesk-v2-openapi.yml#listRecordingScorecards
+  - name: users_get_me
+    title: Get current user
+    description: Returns auth context — the authenticated user. Useful for self-test.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#getCurrentUser
+  - name: users_list
+    title: List users
+    description: List active users visible to the authenticated user.
+    published_on_microsite: false
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#listUsers
+    note: Declared via x-mcp in the OpenAPI but not listed on https://mcp.demodesk.ai/llms.txt.
+  - name: recordings_list
+    title: List recordings
+    description: List recordings with rich filtering by host, date, or participant.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#listRecordings
+  - name: recordings_get
+    title: Get recording details
+    description: Single recording detail with metadata and participants.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#getRecording
+  - name: recordings_get_transcript
+    title: Get recording transcript
+    description: One transcript with speaker labels. 98 languages supported.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#getRecordingTranscript
+  - name: recordings_batch_get_transcripts
+    title: Get transcripts in batch
+    description: Up to 100 transcripts at once. Used for cross-deal analysis.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#batchGetRecordingsTranscripts
+  - name: recordings_list_summaries
+    title: List recording summaries
+    description: AI-generated summaries and highlights from any meeting.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#listRecordingSummaries
+  - name: recordings_list_scorecards
+    title: List recording scorecards
+    description: Coaching scorecards with rubric scores and question-level breakdowns.
+    published_on_microsite: true
+    source_operation: openapi/_original/demodesk-v2-openapi.yml#listRecordingScorecards
+deployment:
+  mode: remote
+  endpoint: https://demodesk.com/mcp
+  auth: oauth
+  verified: probed
+  probe: gated
+  checked: '2026-08-14'
+  source: live tools/list probe + https://mcp.demodesk.ai/llms.txt
+  package: null
+  install: null
+  install_note: >-
+    No stdio package exists — every documented client install is the same remote
+    URL registered with an MCP client. `claude mcp add demodesk --transport http
+    https://demodesk.com/mcp` is a CLI *registration* of a remote endpoint, not a
+    local server; there is nothing to npx and nothing to run on a machine. mode
+    is therefore remote, not both.
+  clients_documented:
+  - client: Claude.ai / Claude Desktop
+    method: connector URL
+    detail: https://claude.ai/customize/connectors then add https://demodesk.com/mcp
+  - client: ChatGPT
+    method: connector URL
+    detail: https://chatgpt.com/#settings/Connectors then add https://demodesk.com/mcp
+  - client: Microsoft 365 Copilot (Copilot Studio)
+    method: MCP tool + OAuth 2.0 dynamic discovery
+  - client: Gemini
+    method: enterprise / Workspace only; admin must enable MCP first
+  - client: Cursor
+    method: '~/.cursor/mcp.json -> { "mcpServers": { "demodesk": { "url": "https://demodesk.com/mcp" } } }'
+  - client: VS Code
+    method: '.vscode/mcp.json -> { "servers": { "demodesk": { "url": "https://demodesk.com/mcp", "type": "http" } } }'
+  - client: Claude Code
+    method: claude mcp add demodesk --transport http https://demodesk.com/mcp
+  - client: Windsurf
+    method: '~/.codeium/windsurf/mcp_config.json -> { "mcpServers": { "demodesk": { "serverUrl": "https://demodesk.com/mcp" } } }'
+  evidence:
+    method: 'POST tools/list (jsonrpc 2.0), anonymous'
+    url: https://demodesk.com/mcp
+    http_status: 401
+    result: >-
+      {"error":{"code":"missing_bearer_token","message":"Bearer token required"}}
+      plus an "mcp" object that self-describes the server, states access requires
+      OAuth 2.0 with scope "mcp:tools", and links both metadata documents.
+x-related:
+  llms_txt: llms/demodesk-mcp-llms.txt
+  llms_full: https://demodesk.com/mcp/llms-full.txt
+  llms_full_note: >-
+    Provider publishes a full landing-page dump; deliberately not committed
+    (*-llms-full.txt is gitignored network-wide).

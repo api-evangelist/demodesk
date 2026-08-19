@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API V1 Externally recorded demos API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Externally recorded demos",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Externally recorded demo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{defaultHost}/api/v1/externally_recorded_demos",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "api-key",
+              "value": "{{api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Externally recorded demo"
+        },
+        {
+          "info": {
+            "name": "Create demo from mobile recording upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{defaultHost}/api/v1/externally_recorded_demos/create_from_mobile_recording_upload",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "api-key",
+              "value": "{{api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Uploads a recording from mobile.\nIf `demo_id` is provided, the recording is attached to that existing demo.\nIf `demo_id` is omitted, a new demo is created from the provided metadata.\n"
+        },
+        {
+          "info": {
+            "name": "Create demo from recording upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{defaultHost}/api/v1/externally_recorded_demos/create_from_recording_upload",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "api-key",
+              "value": "{{api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Uploads a recording.\nIf `demo_id` is provided, the recording is attached to that existing demo.\nIf `demo_id` is omitted, a new manual-upload demo is created.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

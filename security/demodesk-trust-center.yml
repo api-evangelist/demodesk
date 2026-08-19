@@ -1,13 +1,51 @@
-generated: '2026-07-18'
+generated: '2026-08-14'
 method: searched
 probe: true
-source: https://trust.demodesk.com/
-url: https://trust.demodesk.com/
+source: https://security.demodesk.com
+url: https://security.demodesk.com
+platform: Vanta Trust Center
+platform_evidence: >-
+  https://security.demodesk.com returns 200 and its HTML shell is Vanta's
+  (assets.vanta.com signature manifest, static.vanta.com API version endpoint) —
+  a hosted trust center on a dedicated subdomain, not a marketing page.
 certifications:
 - ISO 27001
 - GDPR
 evidence:
-- source: https://trust.demodesk.com/
+- source: https://security.demodesk.com
+  http_status: 200
+  note: >-
+    Vanta-hosted trust center on a Demodesk-controlled subdomain. Contents are
+    JS-rendered, so the certification list below is corroborated from the
+    provider's own text rather than scraped from the SPA.
+- source: https://demodesk.com/legal/privacy-policy
   keywords:
   - iso 27001
   - gdpr
+- source: https://demodesk.com/llms.txt
+  keywords:
+  - ISO 27001:2022 certified
+  - GDPR-native
+  - EU-only data (Azure Frankfurt)
+- source: https://mcp.demodesk.ai/llms.txt
+  keywords:
+  - 'Trust: ISO 27001:2022, GDPR-native, EU-only data (Azure Frankfurt)'
+vulnerability_disclosure:
+  published: false
+  checked: '2026-08-14'
+  evidence:
+  - url: https://demodesk.com/.well-known/security.txt
+    status: 404
+  - url: https://demodesk.com/security.txt
+    status: 404
+  - url: https://security.demodesk.com/.well-known/security.txt
+    status: 200
+    document: false
+    note: SPA catch-all returning HTML for every path — a soft 200, not an RFC 9116 document.
+  note: >-
+    No security.txt, no bug-bounty program (HackerOne / Bugcrowd / Intigriti) and
+    no disclosure page found. security/demodesk-vulnerability-disclosure.yml was
+    deliberately NOT written and no `type: Security` pointer is wired — the
+    absence is the finding. This is the single clearest remediation available to
+    Demodesk: an ISO 27001:2022-certified company with a Vanta trust center that
+    does not serve a two-line security.txt.

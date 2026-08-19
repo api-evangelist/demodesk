@@ -1,0 +1,49 @@
+# Demodesk MCP
+
+> The Demodesk MCP is a read-only Model Context Protocol server that exposes Demodesk meeting recordings, transcripts, AI summaries, and coaching scorecards to any MCP-compatible AI client — Claude, ChatGPT, Microsoft 365 Copilot, Gemini, Cursor, Claude Code, Windsurf, Codex. Connect once with your existing Demodesk account, then ask any AI tool about your sales conversations in plain English.
+
+Connect URL: `https://demodesk.com/mcp`
+Help center: https://help.demodesk.com/en/articles/15080605-demodesk-mcp
+Authentication: Sign in with your existing Demodesk account. No API key needed for most setups (manual API key available via Demodesk Settings → Integrations).
+Access model: Read-only. Permissions inherit from your Demodesk account. Revoke by disconnecting the Demodesk connector inside your AI client (Claude: Settings → Connectors; Claude Code: `/mcp` → disconnect). The client triggers OAuth revocation on Demodesk's backend immediately.
+Trust: ISO 27001:2022, GDPR-native, EU-only data (Azure Frankfurt), German-founded (Munich, 2018).
+Plan: Included with every Demodesk plan at no extra cost.
+
+## Tools
+
+- `users_get_me`: Returns auth context — the authenticated user. Useful for self-test.
+- `recordings_list`: List recordings with rich filtering by host, date, or participant.
+- `recordings_get`: Single recording detail with metadata and participants.
+- `recordings_get_transcript`: One transcript with speaker labels. 98 languages supported.
+- `recordings_batch_get_transcripts`: Up to 100 transcripts at once. Used for cross-deal analysis.
+- `recordings_list_summaries`: AI-generated summaries and highlights from any meeting.
+- `recordings_list_scorecards`: Coaching scorecards with rubric scores and question-level breakdowns.
+
+## Install
+
+- Claude.ai / Claude Desktop: https://claude.ai/customize/connectors then add `https://demodesk.com/mcp`
+- ChatGPT: https://chatgpt.com/#settings/Connectors then add `https://demodesk.com/mcp`
+- Microsoft 365 Copilot (via Copilot Studio): https://copilotstudio.microsoft.com → your agent → Tools → Add a tool → Model Context Protocol → paste `https://demodesk.com/mcp` → OAuth 2.0 (Dynamic discovery)
+- Gemini (enterprise / Workspace only — admin must enable MCP first, then the user connects): see help center article for the current admin + user flow
+- Cursor (`~/.cursor/mcp.json`): `{ "mcpServers": { "demodesk": { "url": "https://demodesk.com/mcp" } } }`
+- VS Code (`.vscode/mcp.json`): `{ "servers": { "demodesk": { "url": "https://demodesk.com/mcp", "type": "http" } } }`
+- Claude Code: `claude mcp add demodesk --transport http https://demodesk.com/mcp`
+- Windsurf (`~/.codeium/windsurf/mcp_config.json`): `{ "mcpServers": { "demodesk": { "serverUrl": "https://demodesk.com/mcp" } } }`
+
+## Example prompts
+
+- "Summarize my discovery calls from last week."
+- "What objections came up in deals over EUR 50k this quarter?"
+- "Pull the scorecard from my Acme call and show me where I lost points."
+- "Find every call where the customer mentioned [competitor]."
+- "Which calls scored highest on my MEDDIC scorecard this month?"
+- "Translate yesterday's German prospect call to English."
+
+## Full content
+
+- [Full landing page content](https://demodesk.com/mcp/llms-full.txt): the complete landing page in one markdown file, including all tool descriptions, install instructions, security details, and FAQ.
+
+## About Demodesk
+
+- [Demodesk main site](https://demodesk.com): AI Sales Agent platform for B2B revenue teams. Four AI agents — AI Assistant, AI Coach, AI Analyst, AI CRM Concierge — record conversations, update CRMs, coach reps, and rescue at-risk deals.
+- [Demodesk llms.txt](https://demodesk.com/llms.txt): main-site llms.txt index, including all product pages, blog content, and comparison pages.

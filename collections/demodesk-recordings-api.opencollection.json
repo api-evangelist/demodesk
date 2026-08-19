@@ -1,0 +1,152 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API V1 Externally recorded demos Recordings API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Recordings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List recordings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/recordings",
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Filter recordings by their properties.\n\nThis uses Ransack-style keys in a deep-object parameter. Filter attributes use snake_case.\nCommon operators include `eq`, `not_eq`, `cont`, `gteq`, `lteq`, and `in`.\n\nCommon examples\n- `/api/v2/recordings?filter[status_eq]=pending` (allowed public values: `pending`, `ready`, `failure`, `cancelled`, `expired`)\n- `/api/v2/recordings?filter[postprocessing_status_eq]=done` (You most-likely want this - eg. transcribed, summaries generated, CRM synced, ...)\n- `/api/v2/recordings?filter[status_in][]=ready&filter[status_in][]=failure` (Ransack `in` operator with repeated array params)\n- `/api/v2/recordings?filter[created_at_gteq]=2025-01-01T00:00:00Z`\n- `/api/v2/recordings?filter[demo_id_eq]=123`\n- `/api/v2/recordings?filter[host_eq]=me` (recordings hosted by the current authenticated user)\n- `/api/v2/recordings?filter[host_eq]=host@example.com` (recordings hosted by a specific user)\n- `/api/v2/recordings?filter[host_in][]=me&filter[host_in][]=manager@example.com` (multiple hosts)\n- `/api/v2/recordings?filter[attendee_eq]=prospect@example.com` (recordings where this attendee joined)\n- `/api/v2/recordings?filter[attendee_in][]=me&filter[attendee_in][]=champion@example.com` (multiple attendees)\n- `/api/v2/recordings?filter[group_id_eq]=99` (for `access: company_wide` or `host_only` recordings: matches by host's group membership; for `access: selected_groups` recordings: matches by the demo's assigned groups)\n- `/api/v2/recordings?filter[group_id_in][]=99&filter[group_id_in][]=100` (multiple groups)\n- `/api/v2/recordings?filter[access_eq]=host_only` (allowed values: `company_wide`, `selected_groups`, `host_only`)\n\nThey can be combined freely.\n"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque cursor returned by a previous list response."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size for recordings list."
+              }
+            ]
+          },
+          "docs": "Returns recordings **visible to the owner of the API key**.\n\nIf you want to access \"all\" recordings, use an admin user who is added to all restricted groups. Recordings with explicit `only_me` permission are only accessible by said user.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n- Endpoint-specific: 60 requests per minute per API key.\n"
+        },
+        {
+          "info": {
+            "name": "Get recording details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/recordings/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "d0584dc4e31be4a0",
+                "type": "path",
+                "description": "Public recording token identifier."
+              }
+            ]
+          },
+          "docs": "Returns a single recording with detailed metadata and derived stats.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        },
+        {
+          "info": {
+            "name": "Get recording transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/recordings/:token/transcript",
+            "params": [
+              {
+                "name": "token",
+                "value": "d0584dc4e31be4a0",
+                "type": "path",
+                "description": "Public recording token identifier."
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Translate transcript on-the-fly to the provided language."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Whether to return structured transcript JSON or plain text."
+              }
+            ]
+          },
+          "docs": "Returns the full transcript grouped into paragraphs and sentences.\n\nUse the optional `lang` query parameter to request a translated transcript.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        },
+        {
+          "info": {
+            "name": "Get transcripts in batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{defaultHost}/transcripts/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns transcripts for `n` recordings (`n` <= 100).\nResults are returned with a per-recording status.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        },
+        {
+          "info": {
+            "name": "List recording summaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/recordings/:token/summaries",
+            "params": [
+              {
+                "name": "token",
+                "value": "d0584dc4e31be4a0",
+                "type": "path",
+                "description": "Public recording token identifier."
+              }
+            ]
+          },
+          "docs": "Returns generated summaries associated with the recording.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        },
+        {
+          "info": {
+            "name": "List recording scorecards",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/recordings/:token/scorecards",
+            "params": [
+              {
+                "name": "token",
+                "value": "d0584dc4e31be4a0",
+                "type": "path",
+                "description": "Public recording token identifier."
+              }
+            ]
+          },
+          "docs": "Returns non-deleted scorecards associated with the recording.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -19,3 +19,38 @@ status_page: https://status.demodesk.com
 deprecated_operations:
 - openapi/demodesk-v1-openapi.json#createExternallyRecordedDemo
 - openapi/demodesk-v1-openapi.json (entire v1 surface — slated for discontinuation)
+changelog:
+  published: false
+  checked: '2026-08-14'
+  evidence:
+  - url: https://demodesk.com/changelog
+    status: 404
+  - url: https://demodesk.com/whats-new
+    status: 404
+  note: >-
+    Demodesk publishes no dated API changelog. Product news goes to the blog and
+    the Intercom help center (help.demodesk.com/feed.xml, harvested into blogs/),
+    neither of which versions the API. No ChangeLog pointer is wired in apis.yml
+    for that reason — there is nothing to point at.
+spec_drift:
+  method: probed
+  checked: '2026-08-14'
+  baseline: '2026-07-18'
+  sources:
+  - https://demodesk.com/api/docs/v2/generated.yaml
+  - https://demodesk.com/api/docs/v1/swagger.json
+  observed:
+  - spec: v2
+    changed: true
+    change: >-
+      x-mcp.openWorldHint flipped true -> false on all 8 operations. Only change
+      in the document — identical paths (8), webhooks (10), schemas and info.
+    breaking: false
+  - spec: v1
+    changed: false
+    change: byte-identical to the 2026-07-18 capture.
+  note: >-
+    Recorded here because the provider ships no changelog: this diff is the only
+    dated evidence that the v2 contract is actively maintained. Both live spec
+    URLs were rediscovered from the Swagger UI config in
+    https://demodesk.com/api/docs/index.html (urls[]), not guessed.

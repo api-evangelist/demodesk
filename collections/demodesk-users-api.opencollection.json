@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API V1 Externally recorded demos Users API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/me"
+          },
+          "docs": "Returns the user represented by the provided API key or OAuth token.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        },
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{defaultHost}/users",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive partial search across full name and email.\n"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opaque cursor returned by a previous list response."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size for recordings list."
+              }
+            ]
+          },
+          "docs": "Returns active users visible to the authenticated user.\n\nRate limits:\n- Global: 120 requests per minute per API key.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,53 @@
+generated: '2026-08-13'
+method: searched
+source: https://demodesk.com/api/docs/index.html
+note: >-
+  Demodesk publishes rate limits inside the v2 OpenAPI itself — every operation's
+  `description` carries a "Rate limits:" block. That makes the numbers
+  provider-published rather than derived. The limits are enforced per API key.
+  The 429 response declares a `Retry-After` header, so an agent is told how long
+  to wait — but no RateLimit-* / X-RateLimit-* headers are declared, so remaining
+  quota cannot be read before exhaustion, only after it.
+limit_count: 2
+limits:
+- id: global-per-key
+  scope: per-key
+  limit: 120
+  unit: requests
+  window: 1m
+  applies_to: all v2 operations
+  source: openapi/_original/demodesk-v2-openapi.yml (operation descriptions)
+  evidence: 'Global: 120 requests per minute per API key.'
+- id: list-recordings-per-key
+  scope: per-endpoint
+  limit: 60
+  unit: requests
+  window: 1m
+  applies_to:
+  - listRecordings
+  source: openapi/_original/demodesk-v2-openapi.yml#listRecordings
+  evidence: 'Endpoint-specific: 60 requests per minute per API key.'
+exhaustion:
+  status: 429
+  body_media_type: application/json
+  body_shape: '{ "error": { "code", "message", "requestId" } }'
+  ref: errors/demodesk-problem-types.yml
+response_headers:
+  documented: true
+  retry_after: true
+  headers:
+  - name: Retry-After
+    type: integer
+    description: Seconds until the next request is allowed.
+    returned_on: 429
+    source: openapi/_original/demodesk-v2-openapi.yml#/components/responses/too-many-requests
+  standard_headers: []
+  note: >-
+    The published `too-many-requests` response component declares exactly one
+    header, `Retry-After` (integer seconds). No RateLimit-* (RFC 9331 draft) or
+    X-RateLimit-* headers are declared anywhere in the spec, and the 200
+    responses carry no `headers:` block at all — so a client learns its budget
+    only by exhausting it. Recorded as a partial runtime signal: back-off is
+    machine-readable, remaining quota is not.
+burst:
+  documented: false

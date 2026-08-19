@@ -1,0 +1,130 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://api.github.com/orgs/demodesk/repos, https://registry.npmjs.org,
+  https://itunes.apple.com/lookup, https://demodesk.com/llms.txt
+  (## Apps & Downloads), https://demodesk.com/downloads
+checked: '2026-08-14'
+note: >-
+  THE HEADLINE FINDING IS AN ABSENCE: Demodesk ships a public REST API (v2,
+  OpenAPI 3.1) and a hosted MCP server, but publishes NO client SDK for either —
+  not on npm, PyPI, RubyGems, Packagist, crates.io, Maven Central, NuGet or
+  pkg.go.dev, and none is linked from the API reference. Every registry below was
+  queried unauthenticated on 2026-08-14. What the company DOES publish under its
+  own name are END-USER APPLICATIONS (a macOS/Windows recorder, an iOS/Android
+  recorder, a Chrome extension) and one archived open-source streaming component
+  inherited from an earlier product generation. Integrators are expected to call
+  the API with a plain HTTP client, or to reach it through the MCP server — which
+  is consistent with the company's own positioning ("connect once with your
+  existing account"), but it means there is no versioned, dated first-party
+  library whose staleness could be measured against the API.
+sdk_count: 0
+package_count: 5
+registries_searched:
+- npm
+- PyPI
+- RubyGems
+- Packagist
+- crates.io
+- Maven Central
+- NuGet
+- pkg.go.dev
+packages:
+- name: demodesk/desktop
+  registry: github-releases
+  url: https://github.com/demodesk/desktop
+  version: v0.1.16
+  published: '2026-07-13'
+  official: true
+  kind: application
+  language: null
+  description: >-
+    One-click meeting recorder for macOS and Windows. Records Zoom, Teams and
+    Meet locally and auto-syncs transcripts and summaries to Demodesk.
+  source: https://api.github.com/repos/demodesk/desktop/releases
+  note: >-
+    Distributed as GitHub Releases from the company's own org (Demodesk GmbH,
+    github.com/demodesk). Actively released — five releases between 2026-04-17
+    and 2026-07-13. This is an end-user app, not a library: it consumes the
+    Demodesk backend, it does not expose one.
+- name: Demodesk Recorder (iOS)
+  registry: app-store
+  url: https://apps.apple.com/app/demodesk-recorder/id6760012211
+  bundle_id: com.demodesk.recorder
+  version: 1.5.1
+  published: '2026-08-04'
+  official: true
+  publisher: Demodesk GmbH
+  kind: application
+  source: https://itunes.apple.com/lookup?id=6760012211
+  note: >-
+    Version and date read from the unauthenticated iTunes lookup endpoint; seller
+    is "Demodesk GmbH", so first-party is confirmed by the store record itself.
+    The most recently shipped Demodesk artifact of any kind.
+- name: Demodesk Recorder (Android)
+  registry: google-play
+  url: https://play.google.com/store/apps/details?id=com.demodesk.recorder
+  bundle_id: com.demodesk.recorder
+  version: null
+  published: null
+  official: true
+  kind: application
+  source: https://demodesk.com/llms.txt
+  note: >-
+    version/published are null because Google Play publishes no unauthenticated
+    metadata endpoint equivalent to the iTunes lookup API — checked, nothing to
+    record, not a guess. The listing itself is named in the provider's own
+    llms.txt under "Apps & Downloads".
+- name: Demodesk Chrome extension
+  registry: chrome-web-store
+  url: https://chrome.google.com/webstore/detail/demodesk/bbojnefnecffoabbniaoboefbffbbimi
+  extension_id: bbojnefnecffoabbniaoboefbffbbimi
+  version: null
+  published: null
+  official: true
+  kind: application
+  source: https://demodesk.com/llms.txt
+  note: >-
+    Schedule and launch meetings from the browser. The Chrome Web Store exposes
+    no unauthenticated version/date API, so both fields are null by measurement
+    rather than omission.
+- name: '@demodesk/neko'
+  registry: npm
+  url: https://www.npmjs.com/package/@demodesk/neko
+  version: 1.6.32
+  published: '2024-01-26'
+  official: true
+  kind: component
+  language: TypeScript
+  repository: https://github.com/demodesk/neko-client
+  source: https://registry.npmjs.org/@demodesk%2Fneko
+  status: abandoned
+  note: >-
+    The only package Demodesk has ever published to a language registry. It is a
+    Vue.js client component for the `neko` WebRTC streaming server — the
+    virtual-browser technology behind the original Demodesk shared-screen meeting
+    product — NOT a client for the Demodesk Public API. Published under the
+    company's own npm scope from github.com/demodesk/neko-client, but the npm
+    publisher account is the upstream neko author (m1k1o) rather than a company
+    account, so "official" here means org-scoped and org-hosted. BOTH backing
+    repos (demodesk/neko, demodesk/neko-client) were ARCHIVED on GitHub in June
+    2024 and the last npm release is 2024-01-26 — two and a half years stale
+    against a v2 API that was still being edited in August 2026. Recorded as
+    abandonment evidence for the old meeting stack, not as API tooling.
+absent:
+- registry: npm
+  query: demodesk
+  result: only @demodesk/neko (above); no API client
+- registry: PyPI
+  query: demodesk
+  result: 404 Not Found
+- registry: RubyGems
+  query: demodesk
+  result: gem not found
+x-notes:
+  no_sdks_pointer: >-
+    Deliberately NOT wired as `type: SDKs` in apis.yml. sdk_count is meant to read
+    "does this provider ship a client library for its API" and the honest answer
+    is no. Wiring a WebRTC streaming component and three consumer apps as SDKs
+    would score a point the company has not earned. `type: Packages` is wired
+    instead, which is what these actually are.

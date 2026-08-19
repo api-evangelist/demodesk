@@ -55,7 +55,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 5000
       summary: Get current user
       description: |
@@ -89,7 +89,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 5000
       summary: List users
       description: |
@@ -133,7 +133,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 30000
       summary: List recordings
       description: |
@@ -177,7 +177,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 45000
       summary: Get recording details
       description: |
@@ -216,7 +216,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 20000
       summary: Get recording transcript
       description: |
@@ -278,7 +278,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 60000
       summary: Get transcripts in batch
       description: |
@@ -322,7 +322,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 30000
       summary: List recording summaries
       description: |
@@ -361,7 +361,7 @@ paths:
         readOnlyHint: true
         idempotentHint: true
         destructiveHint: false
-        openWorldHint: true
+        openWorldHint: false
         timeoutMs: 15000
       summary: List recording scorecards
       description: |

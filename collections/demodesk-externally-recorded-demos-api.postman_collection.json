@@ -1,0 +1,802 @@
+{
+  "item": [
+    {
+      "id": "e78442fa-9aae-429e-abad-63c4d2566d9b",
+      "name": "Externally recorded demos",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b0a76491-466a-4d6a-a7fc-0d5300d7d05e",
+          "name": "Create Externally recorded demo",
+          "request": {
+            "name": "Create Externally recorded demo",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "externally_recorded_demos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"demo\": {\n    \"account\": \"<string>\",\n    \"start_date\": \"<datetime>\",\n    \"calendar_owner_id\": \"<string>\",\n    \"booker_id\": \"<string>\"\n  },\n  \"host\": {\n    \"email\": \"<string>\"\n  },\n  \"guests\": [\n    {\n      \"name\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\"\n    }\n  ],\n  \"recording\": {\n    \"url\": \"<string>\",\n    \"speaker_count\": \"<integer>\",\n    \"content_type\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "54e6e589-648d-4d41-8735-35199e1e8d4b",
+              "name": "demo created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"demo\": {\n    \"account\": \"<string>\",\n    \"start_date\": \"<datetime>\",\n    \"calendar_owner_id\": \"<string>\",\n    \"booker_id\": \"<string>\"\n  },\n  \"host\": {\n    \"email\": \"<string>\"\n  },\n  \"guests\": [\n    {\n      \"name\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\"\n    }\n  ],\n  \"recording\": {\n    \"url\": \"<string>\",\n    \"speaker_count\": \"<integer>\",\n    \"content_type\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5235285b-a9b3-44d1-a2a1-94e9bd29fc04",
+              "name": "unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"demo\": {\n    \"account\": \"<string>\",\n    \"start_date\": \"<datetime>\",\n    \"calendar_owner_id\": \"<string>\",\n    \"booker_id\": \"<string>\"\n  },\n  \"host\": {\n    \"email\": \"<string>\"\n  },\n  \"guests\": [\n    {\n      \"name\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\"\n    }\n  ],\n  \"recording\": {\n    \"url\": \"<string>\",\n    \"speaker_count\": \"<integer>\",\n    \"content_type\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db6dee7e-e321-4cd8-9986-08d4a273b614",
+          "name": "Create demo from mobile recording upload",
+          "request": {
+            "name": "Create demo from mobile recording upload",
+            "description": {
+              "content": "Uploads a recording from mobile.\nIf `demo_id` is provided, the recording is attached to that existing demo.\nIf `demo_id` is omitted, a new demo is created from the provided metadata.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "externally_recorded_demos",
+                "create_from_mobile_recording_upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file\": \"<string>\",\n  \"name\": \"<string>\",\n  \"current_index\": \"<integer>\",\n  \"demo_id\": \"<integer>\",\n  \"demo\": {\n    \"account\": \"<string>\",\n    \"start_date\": \"<datetime>\",\n    \"duration\": \"<integer>\"\n  },\n  \"participants\": [\n    {\n      \"full_name\": \"<string>\",\n      \"email\": \"<string>\"\n    },\n    {\n      \"full_name\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  ],\n  \"location\": {\n    \"value\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f7c86554-e3da-4e77-a022-fe0193b411b9",
+              "name": "demo created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_mobile_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345,\n  \"demo\": {\n    \"account\": \"Mobile imported meeting\",\n    \"start_date\": \"2025-01-20T12:00:00Z\",\n    \"duration\": 900\n  },\n  \"participants\": [\n    {\n      \"full_name\": \"Ada Lovelace\",\n      \"email\": \"ada@example.com\"\n    },\n    {\n      \"full_name\": \"Grace Hopper\",\n      \"email\": \"grace@example.com\"\n    }\n  ],\n  \"location\": {\n    \"value\": \"https://meet.google.com/abc-defg-hij\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4b66857e-dcd6-493c-9af5-64eb5afd4a63",
+              "name": "invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_mobile_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345,\n  \"demo\": {\n    \"account\": \"Mobile imported meeting\",\n    \"start_date\": \"2025-01-20T12:00:00Z\",\n    \"duration\": 900\n  },\n  \"participants\": [\n    {\n      \"full_name\": \"Ada Lovelace\",\n      \"email\": \"ada@example.com\"\n    },\n    {\n      \"full_name\": \"Grace Hopper\",\n      \"email\": \"grace@example.com\"\n    }\n  ],\n  \"location\": {\n    \"value\": \"https://meet.google.com/abc-defg-hij\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2feb093c-82a0-4385-89aa-2ef71e6d77d7",
+              "name": "unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_mobile_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345,\n  \"demo\": {\n    \"account\": \"Mobile imported meeting\",\n    \"start_date\": \"2025-01-20T12:00:00Z\",\n    \"duration\": 900\n  },\n  \"participants\": [\n    {\n      \"full_name\": \"Ada Lovelace\",\n      \"email\": \"ada@example.com\"\n    },\n    {\n      \"full_name\": \"Grace Hopper\",\n      \"email\": \"grace@example.com\"\n    }\n  ],\n  \"location\": {\n    \"value\": \"https://meet.google.com/abc-defg-hij\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7810682d-7064-4eef-9bd8-71a57959ac21",
+              "name": "demo not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_mobile_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345,\n  \"demo\": {\n    \"account\": \"Mobile imported meeting\",\n    \"start_date\": \"2025-01-20T12:00:00Z\",\n    \"duration\": 900\n  },\n  \"participants\": [\n    {\n      \"full_name\": \"Ada Lovelace\",\n      \"email\": \"ada@example.com\"\n    },\n    {\n      \"full_name\": \"Grace Hopper\",\n      \"email\": \"grace@example.com\"\n    }\n  ],\n  \"location\": {\n    \"value\": \"https://meet.google.com/abc-defg-hij\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb440417-4a17-4868-b21e-b224f363a8eb",
+          "name": "Create demo from recording upload",
+          "request": {
+            "name": "Create demo from recording upload",
+            "description": {
+              "content": "Uploads a recording.\nIf `demo_id` is provided, the recording is attached to that existing demo.\nIf `demo_id` is omitted, a new manual-upload demo is created.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "externally_recorded_demos",
+                "create_from_recording_upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{defaultHost}}",
+                  "key": "defaultHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file\": \"<string>\",\n  \"name\": \"<string>\",\n  \"current_index\": \"<integer>\",\n  \"demo_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9c848468-ff57-45c1-a760-36ad587eee0f",
+              "name": "demo created or recording attached",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8a6dde37-3b78-468d-97ae-d7a5ac2aca06",
+              "name": "unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e277f182-0aca-4527-a663-7d7aa1b09192",
+              "name": "demo not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "externally_recorded_demos",
+                    "create_from_recording_upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{defaultHost}}",
+                      "key": "defaultHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0EiLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--abcdef123\",\n  \"name\": \"weekly-product-review.mp4\",\n  \"current_index\": 0,\n  \"demo_id\": 12345\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demodesk.com",
+      "key": "defaultHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{defaultHost}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e17d17f5-55d6-4a1d-b0fe-e7c5793d2f50",
+    "name": "API V1 Externally recorded demos API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}
