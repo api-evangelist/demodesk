@@ -36,6 +36,16 @@ modified: '2026-08-14'
 tags:
 - Company
 - Sales
+- Artificial Intelligence
+- Conversation Intelligence
+- Video Conferencing
+- CRM
+- Transcription
+- Webhook
+- MCP
+tags_raw:
+- Company
+- Sales
 - AI
 - Conversation Intelligence
 - Video Conferencing
@@ -92,6 +102,8 @@ apis:
   humanURL: https://demodesk.com/api/docs/index.html
   baseURL: https://demodesk.com/api/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
