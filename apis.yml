@@ -11,6 +11,18 @@ description: >-
   hosted MCP server (OAuth2) at demodesk.com/mcp. GDPR-native with EU-only data residency
   (Azure Frankfurt) and ISO 27001:2022 certification.
 url: https://raw.githubusercontent.com/api-evangelist/demodesk/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
