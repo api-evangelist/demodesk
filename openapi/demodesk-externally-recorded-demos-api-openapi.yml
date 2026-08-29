@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: API V1 Externally recorded demos API
+  title: V1 Externally recorded demos API
   version: v1
 servers:
 - url: https://{defaultHost}
@@ -179,23 +179,26 @@ paths:
                     type: object
                     properties:
                       full_name:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: Participant full name
-                        nullable: true
                         example: Ada Lovelace
                       email:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: Participant email address
-                        nullable: true
                         example: ada@example.com
                 location:
                   type: object
                   description: Location/link string. Backend stores location kind as other.
                   properties:
                     value:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       description: Meeting location/link string
-                      nullable: true
                       example: https://meet.google.com/abc-defg-hij
               required:
               - file

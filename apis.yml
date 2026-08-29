@@ -73,10 +73,9 @@ apis:
   humanURL: https://demodesk.com/api/docs/index.html
   baseURL: https://demodesk.com
   x-base-note: >-
-    v1 surface — paths are /api/v1/externally_recorded_demos/*, so the base is the
-    host root, NOT /api/v2. Corrected 2026-08-14 from the published v1 Swagger
-    (https://demodesk.com/api/docs/v1/swagger.json), whose templated server
-    https://{defaultHost} declares default: demodesk.com.
+    v1 surface — paths are /api/v1/externally_recorded_demos/*, so the base is the host root, NOT /api/v2.
+    Corrected 2026-08-14 from the published v1 Swagger (https://demodesk.com/api/docs/v1/swagger.json),
+    whose templated server https://{defaultHost} declares default: demodesk.com.
   tags:
   - Externally recorded demos
   properties:
@@ -128,6 +127,16 @@ apis:
     url: errors/demodesk-problem-types.yml
   - type: DataModel
     url: data-model/demodesk-data-model.yml
+- aid: demodesk:demodesk-demodesk-public-api-api
+  name: Demodesk Demodesk Public API
+  description: The Demodesk Public API API from Demodesk — 0 operation(s) for demodesk public api.
+  humanURL: https://demodesk.com/api/docs/index.html
+  baseURL: https://demodesk.com
+  tags:
+  - Demodesk Public API
+  properties:
+  - type: OpenAPI
+    url: openapi/demodesk-demodesk-public-api-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

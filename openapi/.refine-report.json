@@ -1,18 +1,38 @@
 {
   "provider": "demodesk",
   "sources": [
-    "demodesk-externally-recorded-demos-api-openapi.yml",
-    "demodesk-recordings-api-openapi.yml",
-    "demodesk-users-api-openapi.yml"
+    "_original/demodesk-v1-openapi.json",
+    "_original/demodesk-v2-openapi.yml"
   ],
   "outputs": [
     "demodesk-externally-recorded-demos-api-openapi.yml",
+    "demodesk-demodesk-public-api-api-openapi.yml",
     "demodesk-recordings-api-openapi.yml",
     "demodesk-users-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "demodesk-v1-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "demodesk-v1-openapi.json: declared missing tag: Externally recorded demos",
+    "demodesk-v2-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.scheduled -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.rescheduled -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.handovered -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.canceled -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.started -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.ended -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.call_note_updated -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST demo.event_response_updated -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST recording.uploaded -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: tagged webhooks POST recording.transcription_postprocessed -> Demodesk Public API",
+    "demodesk-v2-openapi.yml: declared missing tag: Demodesk Public API"
+  ],
+  "skipped": [
+    "demodesk-externally-recorded-demos-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "demodesk-recordings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "demodesk-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

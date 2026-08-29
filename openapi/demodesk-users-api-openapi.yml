@@ -1,13 +1,51 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: API V1 Externally recorded demos Users API
-  version: v1
-  description: Endpoints regarding user management.
+  title: Demodesk Public Users API
+  version: v2
+  description: 'Customer-facing API for external integrations.
+
+
+    We''re currently bringing more capabilities to the v2 API and you should use it whenever possible.
+
+    For some use cases, you may need to use the [v1 API](https://help.demodesk.com/en/articles/8518816-api-reference) instead, which will be discontinued in the future, though.
+
+
+    ## Authentication
+
+
+    All requests require a token passed as a Bearer token in the `Authorization` HTTP header:
+
+
+    ```
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" https://demodesk.com/api/v2/recordings
+
+    ```
+
+
+    Generate an API key in your Demodesk account under *Settings > Integrations > Other*.
+
+    The deprecated `api-key` HTTP header is still accepted for backwards compatibility.
+
+
+    The key inherits the permissions of the user who created it.
+
+    To access resources across your whole company, use the API key of an admin user who is a member of all restricted groups.
+
+
+    ## MCP
+
+
+    AI Agents can use the same capabilities of this API via an MCP server located at `https://demodesk.com/mcp`. The server supports OAuth2 authentication discovery.
+
+    '
+  contact:
+    email: support@demodesk.com
 servers:
-- url: https://{defaultHost}
-  variables:
-    defaultHost:
-      default: demodesk.com
+- url: https://demodesk.com/api/v2
+  description: Public demodesk host
+security:
+- bearerAuth: []
 tags:
 - name: Users
   description: Endpoints regarding user management.
@@ -100,97 +138,13 @@ paths:
           $ref: '#/components/responses/too-many-requests'
 components:
   schemas:
-    error-response:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          - requestId
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            requestId:
-              type: string
-    users-index-response:
+    current-user-response:
       type: object
       required:
       - data
-      - meta
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/user-list-item'
-        meta:
-          type: object
-          required:
-          - hasNext
-          - limit
-          properties:
-            hasNext:
-              type: boolean
-            limit:
-              type: integer
-            nextCursor:
-              type:
-              - string
-              - 'null'
-    user-list-item:
-      type: object
-      required:
-      - id
-      - firstName
-      - lastName
-      - email
-      - role
-      - locale
-      - timeZone
-      properties:
-        id:
-          type: string
-          description: Internal user id.
-          examples:
-          - '12345'
-        firstName:
-          type: string
-          description: First name of the user.
-          examples:
-          - Max
-        lastName:
-          type: string
-          description: Last name of the user.
-          examples:
-          - Mustermann
-        email:
-          type: string
-          format: email
-          description: Primary email of the user.
-          examples:
-          - max@example.com
-        role:
-          type: string
-          description: Role of the user within the company.
-          enum:
-          - user
-          - manager
-          - company_admin
-        locale:
-          type: string
-          description: Locale of the user.
-          examples:
-          - en
-        timeZone:
-          type: string
-          description: IANA time zone of the user.
-          examples:
-          - Europe/Berlin
+          $ref: '#/components/schemas/current-user-item'
     current-user-item:
       type: object
       required:
@@ -246,13 +200,73 @@ components:
           description: Groups the authenticated user belongs to.
           items:
             $ref: '#/components/schemas/recording-group-item'
-    current-user-response:
+    user-list-item:
       type: object
       required:
-      - data
+      - id
+      - firstName
+      - lastName
+      - email
+      - role
+      - locale
+      - timeZone
       properties:
-        data:
-          $ref: '#/components/schemas/current-user-item'
+        id:
+          type: string
+          description: Internal user id.
+          examples:
+          - '12345'
+        firstName:
+          type: string
+          description: First name of the user.
+          examples:
+          - Max
+        lastName:
+          type: string
+          description: Last name of the user.
+          examples:
+          - Mustermann
+        email:
+          type: string
+          format: email
+          description: Primary email of the user.
+          examples:
+          - max@example.com
+        role:
+          type: string
+          description: Role of the user within the company.
+          enum:
+          - user
+          - manager
+          - company_admin
+        locale:
+          type: string
+          description: Locale of the user.
+          examples:
+          - en
+        timeZone:
+          type: string
+          description: IANA time zone of the user.
+          examples:
+          - Europe/Berlin
+    error-response:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          - requestId
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
     recording-group-item:
       type: object
       required:
@@ -269,14 +283,51 @@ components:
           description: Name of the group.
           examples:
           - Enterprise Sales
+    users-index-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/user-list-item'
+        meta:
+          type: object
+          required:
+          - hasNext
+          - limit
+          properties:
+            hasNext:
+              type: boolean
+            limit:
+              type: integer
+            nextCursor:
+              type:
+              - string
+              - 'null'
+  responses:
+    bad-request:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    unauthorized:
+      description: API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    too-many-requests:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next request is allowed.
+          schema:
+            type: integer
   parameters:
-    cursor:
-      name: cursor
-      in: query
-      required: false
-      description: Opaque cursor returned by a previous list response.
-      schema:
-        type: string
     limit:
       name: limit
       in: query
@@ -287,6 +338,13 @@ components:
         minimum: 1
         maximum: 100
         default: 100
+    cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Opaque cursor returned by a previous list response.
+      schema:
+        type: string
     search:
       name: search
       in: query
@@ -303,28 +361,30 @@ components:
           value: mustermann@example.com
       schema:
         type: string
-  responses:
-    bad-request:
-      description: Request validation failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-    too-many-requests:
-      description: Rate limit exceeded.
-      headers:
-        Retry-After:
-          description: Seconds until the next request is allowed.
-          schema:
-            type: integer
-    unauthorized:
-      description: API key is missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
   securitySchemes:
-    api-key:
-      type: apiKey
-      name: api-key
-      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key or OAuth token
+      description: 'Pass your API key or OAuth token as a Bearer token in the `Authorization` HTTP header.
+
+
+        ```
+
+        curl -H "Authorization: Bearer YOUR_API_KEY" https://demodesk.com/api/v2/recordings
+
+        ```
+
+
+        **Obtaining a key:** Generate an API key in your Demodesk account under
+
+        *Settings > Integrations > Other*.
+
+
+        **Permissions:** The key inherits the permissions of the user who created it.
+
+        So when trying to access resources of your whole company, make sure to use the API key of an admin user who is
+
+        member of all restricted groups.
+
+        '

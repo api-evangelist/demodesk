@@ -1,13 +1,51 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: API V1 Externally recorded demos Recordings API
-  version: v1
-  description: Endpoints to discover recordings and fetch related artifacts.
+  title: Demodesk Public Recordings API
+  version: v2
+  description: 'Customer-facing API for external integrations.
+
+
+    We''re currently bringing more capabilities to the v2 API and you should use it whenever possible.
+
+    For some use cases, you may need to use the [v1 API](https://help.demodesk.com/en/articles/8518816-api-reference) instead, which will be discontinued in the future, though.
+
+
+    ## Authentication
+
+
+    All requests require a token passed as a Bearer token in the `Authorization` HTTP header:
+
+
+    ```
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" https://demodesk.com/api/v2/recordings
+
+    ```
+
+
+    Generate an API key in your Demodesk account under *Settings > Integrations > Other*.
+
+    The deprecated `api-key` HTTP header is still accepted for backwards compatibility.
+
+
+    The key inherits the permissions of the user who created it.
+
+    To access resources across your whole company, use the API key of an admin user who is a member of all restricted groups.
+
+
+    ## MCP
+
+
+    AI Agents can use the same capabilities of this API via an MCP server located at `https://demodesk.com/mcp`. The server supports OAuth2 authentication discovery.
+
+    '
+  contact:
+    email: support@demodesk.com
 servers:
-- url: https://{defaultHost}
-  variables:
-    defaultHost:
-      default: demodesk.com
+- url: https://demodesk.com/api/v2
+  description: Public demodesk host
+security:
+- bearerAuth: []
 tags:
 - name: Recordings
   description: Endpoints to discover recordings and fetch related artifacts.
@@ -333,6 +371,94 @@ paths:
           $ref: '#/components/responses/too-many-requests'
 components:
   schemas:
+    transcript-paragraph:
+      type: object
+      required:
+      - startInSeconds
+      - endInSeconds
+      - speaker
+      - sentences
+      properties:
+        startInSeconds:
+          type: number
+        endInSeconds:
+          type: number
+        speaker:
+          anyOf:
+          - $ref: '#/components/schemas/transcript-speaker'
+          - type: 'null'
+        sentences:
+          type: array
+          items:
+            $ref: '#/components/schemas/transcript-sentence'
+    summary-list-item:
+      type: object
+      required:
+      - summaryId
+      - promptId
+      - promptName
+      - languageCode
+      - content
+      - htmlContent
+      - createdAt
+      - updatedAt
+      properties:
+        summaryId:
+          type: string
+        promptId:
+          type:
+          - string
+          - 'null'
+        promptName:
+          type:
+          - string
+          - 'null'
+        languageCode:
+          type: string
+        content:
+          type: string
+        htmlContent:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    recording-group-item:
+      type: object
+      required:
+      - groupId
+      - groupName
+      properties:
+        groupId:
+          type: string
+          description: Internal group ID as string.
+          examples:
+          - '456'
+        groupName:
+          type: string
+          description: Name of the group.
+          examples:
+          - Enterprise Sales
+    recording-transcript-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/transcript'
+    recording-scorecards-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/scorecard-list-item'
     recording-summaries-response:
       type: object
       required:
@@ -342,125 +468,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/summary-list-item'
-    error-response:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          - requestId
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            requestId:
-              type: string
-    recording-detail-response:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/recording-detail-item'
-    recording-meeting-location-item:
-      type: object
-      required:
-      - kind
-      - value
-      properties:
-        kind:
-          type:
-          - string
-          - 'null'
-        value:
-          type:
-          - string
-          - 'null'
-    transcript:
-      type: object
-      required:
-      - language
-      - paragraphs
-      properties:
-        language:
-          type: string
-        paragraphs:
-          type: array
-          items:
-            $ref: '#/components/schemas/transcript-paragraph'
-    recording-transcript-response:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/transcript'
-    recording-participant-item:
-      type: object
-      required:
-      - participantId
-      - displayName
-      - email
-      - permission
-      - attended
-      properties:
-        participantId:
-          type: string
-        displayName:
-          type: string
-        email:
-          type:
-          - string
-          - 'null'
-        permission:
-          type: string
-          enum:
-          - customer
-          - team
-          - host
-        attended:
-          type: boolean
-    transcript-sentence:
-      type: object
-      required:
-      - startInSeconds
-      - endInSeconds
-      - text
-      properties:
-        startInSeconds:
-          type: number
-        endInSeconds:
-          type: number
-        text:
-          type: string
-    transcript-batch-request:
-      type: object
-      required:
-      - recordingTokens
-      properties:
-        recordingTokens:
-          type: array
-          minItems: 1
-          maxItems: 100
-          uniqueItems: true
-          items:
-            type: string
-        lang:
-          type: string
-          pattern: ^[a-z]{2}(-[A-Z]{2})?$
-          description: 'Translate results to the provided language on-the-fly. Examples: `de`, `fr`, etc.'
-        format:
-          type: string
-          enum:
-          - json
-          - plaintext
-          default: json
-          description: Whether you want structured data for every single sentence or the transcript merged into plain text.
     recording-detail-item:
       allOf:
       - $ref: '#/components/schemas/recording-list-item'
@@ -502,126 +509,71 @@ components:
               $ref: '#/components/schemas/recording-group-item'
           statistics:
             $ref: '#/components/schemas/recording-statistics'
-    transcript-batch-response:
+    recording-statistics:
       type: object
       required:
-      - data
-      - meta
+      - engagementScore
+      - feedbackScore
       properties:
-        data:
+        engagementScore:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          maximum: 10
+        feedbackScore:
+          type:
+          - number
+          - 'null'
+          format: float
+    transcript-batch-request:
+      type: object
+      required:
+      - recordingTokens
+      properties:
+        recordingTokens:
           type: array
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
           items:
-            $ref: '#/components/schemas/transcript-batch-item'
-        meta:
-          type: object
-          required:
-          - requestedCount
-          properties:
-            requestedCount:
-              type: integer
-              minimum: 1
-    recording-group-item:
+            type: string
+        lang:
+          type: string
+          pattern: ^[a-z]{2}(-[A-Z]{2})?$
+          description: 'Translate results to the provided language on-the-fly. Examples: `de`, `fr`, etc.'
+        format:
+          type: string
+          enum:
+          - json
+          - plaintext
+          default: json
+          description: Whether you want structured data for every single sentence or the transcript merged into plain text.
+    recording-participant-item:
       type: object
       required:
-      - groupId
-      - groupName
-      properties:
-        groupId:
-          type: string
-          description: Internal group ID as string.
-          examples:
-          - '456'
-        groupName:
-          type: string
-          description: Name of the group.
-          examples:
-          - Enterprise Sales
-    recording-host-item:
-      type: object
-      description: The host of the demo, resolved inline so consumers don't need a follow-up users lookup.
-      required:
-      - userId
+      - participantId
       - displayName
       - email
+      - permission
+      - attended
       properties:
-        userId:
+        participantId:
           type: string
-          description: ID of the demo host user as string.
         displayName:
           type: string
-          description: Human-readable name of the host.
         email:
-          type: string
-          description: Email address of the host.
-    summary-list-item:
-      type: object
-      required:
-      - summaryId
-      - promptId
-      - promptName
-      - languageCode
-      - content
-      - htmlContent
-      - createdAt
-      - updatedAt
-      properties:
-        summaryId:
-          type: string
-        promptId:
           type:
           - string
           - 'null'
-        promptName:
-          type:
-          - string
-          - 'null'
-        languageCode:
+        permission:
           type: string
-        content:
-          type: string
-        htmlContent:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-    recording-index-response:
-      type: object
-      required:
-      - data
-      - meta
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/recording-list-item'
-        meta:
-          type: object
-          required:
-          - hasNext
-          - limit
-          properties:
-            hasNext:
-              type: boolean
-            limit:
-              type: integer
-            nextCursor:
-              type:
-              - string
-              - 'null'
-    transcript-speaker:
-      type: object
-      required:
-      - displayName
-      properties:
-        displayName:
-          type:
-          - string
-          - 'null'
+          enum:
+          - customer
+          - team
+          - host
+        attended:
+          type: boolean
     transcript-batch-item:
       type: object
       required:
@@ -644,6 +596,56 @@ components:
           - $ref: '#/components/schemas/transcript'
           - $ref: '#/components/schemas/transcript-plaintext'
           - type: 'null'
+    scorecard-question-list-item:
+      type: object
+      required:
+      - questionId
+      - position
+      - name
+      - text
+      - criteria
+      - score
+      - comment
+      - rawTimestamps
+      properties:
+        questionId:
+          type: string
+        position:
+          type: integer
+          minimum: 0
+        name:
+          type:
+          - string
+          - 'null'
+        text:
+          type: string
+        criteria:
+          type:
+          - string
+          - 'null'
+        score:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+          maximum: 5
+        comment:
+          type:
+          - string
+          - 'null'
+        rawTimestamps:
+          type:
+          - string
+          - 'null'
+    transcript-speaker:
+      type: object
+      required:
+      - displayName
+      properties:
+        displayName:
+          type:
+          - string
+          - 'null'
     scorecard-list-item:
       type: object
       required:
@@ -697,76 +699,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/scorecard-question-list-item'
-    scorecard-question-list-item:
+    transcript:
       type: object
       required:
-      - questionId
-      - position
-      - name
-      - text
-      - criteria
-      - score
-      - comment
-      - rawTimestamps
+      - language
+      - paragraphs
       properties:
-        questionId:
+        language:
           type: string
-        position:
-          type: integer
-          minimum: 0
-        name:
-          type:
-          - string
-          - 'null'
-        text:
-          type: string
-        criteria:
-          type:
-          - string
-          - 'null'
-        score:
-          type:
-          - integer
-          - 'null'
-          minimum: 1
-          maximum: 5
-        comment:
-          type:
-          - string
-          - 'null'
-        rawTimestamps:
-          type:
-          - string
-          - 'null'
-    transcript-paragraph:
-      type: object
-      required:
-      - startInSeconds
-      - endInSeconds
-      - speaker
-      - sentences
-      properties:
-        startInSeconds:
-          type: number
-        endInSeconds:
-          type: number
-        speaker:
-          anyOf:
-          - $ref: '#/components/schemas/transcript-speaker'
-          - type: 'null'
-        sentences:
+        paragraphs:
           type: array
           items:
-            $ref: '#/components/schemas/transcript-sentence'
-    recording-scorecards-response:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/scorecard-list-item'
+            $ref: '#/components/schemas/transcript-paragraph'
     recording-list-item:
       type: object
       required:
@@ -880,6 +824,99 @@ components:
           description: IDs of groups assigned to the demo. Present in list responses only; detail responses use `groups` instead.
           items:
             type: string
+    recording-meeting-location-item:
+      type: object
+      required:
+      - kind
+      - value
+      properties:
+        kind:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+    recording-host-item:
+      type: object
+      description: The host of the demo, resolved inline so consumers don't need a follow-up users lookup.
+      required:
+      - userId
+      - displayName
+      - email
+      properties:
+        userId:
+          type: string
+          description: ID of the demo host user as string.
+        displayName:
+          type: string
+          description: Human-readable name of the host.
+        email:
+          type: string
+          description: Email address of the host.
+    recording-index-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/recording-list-item'
+        meta:
+          type: object
+          required:
+          - hasNext
+          - limit
+          properties:
+            hasNext:
+              type: boolean
+            limit:
+              type: integer
+            nextCursor:
+              type:
+              - string
+              - 'null'
+    recording-detail-response:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/recording-detail-item'
+    transcript-sentence:
+      type: object
+      required:
+      - startInSeconds
+      - endInSeconds
+      - text
+      properties:
+        startInSeconds:
+          type: number
+        endInSeconds:
+          type: number
+        text:
+          type: string
+    transcript-batch-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/transcript-batch-item'
+        meta:
+          type: object
+          required:
+          - requestedCount
+          properties:
+            requestedCount:
+              type: integer
+              minimum: 1
     transcript-plaintext:
       type: object
       required:
@@ -890,26 +927,27 @@ components:
           type: string
         text:
           type: string
-    recording-statistics:
+    error-response:
       type: object
       required:
-      - engagementScore
-      - feedbackScore
+      - error
       properties:
-        engagementScore:
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-          maximum: 10
-        feedbackScore:
-          type:
-          - number
-          - 'null'
-          format: float
+        error:
+          type: object
+          required:
+          - code
+          - message
+          - requestId
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
   responses:
-    not-found:
-      description: Recording or related resource was not found.
+    transcript-processing:
+      description: Transcript is still being processed.
       content:
         application/json:
           schema:
@@ -926,6 +964,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error-response'
+    not-found:
+      description: Recording or related resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
     too-many-requests:
       description: Rate limit exceeded.
       headers:
@@ -933,23 +977,14 @@ components:
           description: Seconds until the next request is allowed.
           schema:
             type: integer
-    transcript-processing:
-      description: Transcript is still being processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
   parameters:
-    limit:
-      name: limit
+    cursor:
+      name: cursor
       in: query
       required: false
-      description: Page size for recordings list.
+      description: Opaque cursor returned by a previous list response.
       schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
+        type: string
     transcript-format:
       name: format
       in: query
@@ -961,14 +996,6 @@ components:
         - plaintext
         default: json
       description: Whether to return structured transcript JSON or plain text.
-    recording-token:
-      name: token
-      in: path
-      required: true
-      description: Public recording token identifier.
-      schema:
-        type: string
-      example: d0584dc4e31be4a0
     transcript-language:
       name: lang
       in: query
@@ -977,13 +1004,6 @@ components:
         type: string
         pattern: ^[a-z]{2}(-[A-Z]{2})?$
       description: Translate transcript on-the-fly to the provided language.
-    cursor:
-      name: cursor
-      in: query
-      required: false
-      description: Opaque cursor returned by a previous list response.
-      schema:
-        type: string
     filter:
       name: filter
       in: query
@@ -1458,8 +1478,48 @@ components:
           summary: by demo access level
           value:
             access_eq: host_only
+    limit:
+      name: limit
+      in: query
+      required: false
+      description: Page size for recordings list.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    recording-token:
+      name: token
+      in: path
+      required: true
+      description: Public recording token identifier.
+      schema:
+        type: string
+      example: d0584dc4e31be4a0
   securitySchemes:
-    api-key:
-      type: apiKey
-      name: api-key
-      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key or OAuth token
+      description: 'Pass your API key or OAuth token as a Bearer token in the `Authorization` HTTP header.
+
+
+        ```
+
+        curl -H "Authorization: Bearer YOUR_API_KEY" https://demodesk.com/api/v2/recordings
+
+        ```
+
+
+        **Obtaining a key:** Generate an API key in your Demodesk account under
+
+        *Settings > Integrations > Other*.
+
+
+        **Permissions:** The key inherits the permissions of the user who created it.
+
+        So when trying to access resources of your whole company, make sure to use the API key of an admin user who is
+
+        member of all restricted groups.
+
+        '
