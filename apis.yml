@@ -92,6 +92,8 @@ apis:
   humanURL: https://demodesk.com/api/docs/index.html
   baseURL: https://demodesk.com/api/v2
   tags:
+  - Recording
+  tags_raw:
   - Recordings
   properties:
   - type: OpenAPI
