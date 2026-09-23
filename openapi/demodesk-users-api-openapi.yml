@@ -2,43 +2,7 @@ openapi: 3.2.0
 info:
   title: Demodesk Public Users API
   version: v2
-  description: 'Customer-facing API for external integrations.
-
-
-    We''re currently bringing more capabilities to the v2 API and you should use it whenever possible.
-
-    For some use cases, you may need to use the [v1 API](https://help.demodesk.com/en/articles/8518816-api-reference) instead, which will be discontinued in the future, though.
-
-
-    ## Authentication
-
-
-    All requests require a token passed as a Bearer token in the `Authorization` HTTP header:
-
-
-    ```
-
-    curl -H "Authorization: Bearer YOUR_API_KEY" https://demodesk.com/api/v2/recordings
-
-    ```
-
-
-    Generate an API key in your Demodesk account under *Settings > Integrations > Other*.
-
-    The deprecated `api-key` HTTP header is still accepted for backwards compatibility.
-
-
-    The key inherits the permissions of the user who created it.
-
-    To access resources across your whole company, use the API key of an admin user who is a member of all restricted groups.
-
-
-    ## MCP
-
-
-    AI Agents can use the same capabilities of this API via an MCP server located at `https://demodesk.com/mcp`. The server supports OAuth2 authentication discovery.
-
-    '
+  description: Customer-facing API for external integrations.
   contact:
     email: support@demodesk.com
 servers:
@@ -77,9 +41,7 @@ paths:
 
         Rate limits:
 
-        - Global: 120 requests per minute per API key.
-
-        '
+        - Global: 120 requests per minute per API key.'
       responses:
         '200':
           description: Current user fetched successfully.
@@ -116,9 +78,7 @@ paths:
 
         Rate limits:
 
-        - Global: 120 requests per minute per API key.
-
-        '
+        - Global: 120 requests per minute per API key.'
       parameters:
       - $ref: '#/components/parameters/search'
       - $ref: '#/components/parameters/cursor'
@@ -138,6 +98,48 @@ paths:
           $ref: '#/components/responses/too-many-requests'
 components:
   schemas:
+    error-response:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          - requestId
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+    users-index-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/user-list-item'
+        meta:
+          type: object
+          required:
+          - hasNext
+          - limit
+          properties:
+            hasNext:
+              type: boolean
+            limit:
+              type: integer
+            nextCursor:
+              type:
+              - string
+              - 'null'
     current-user-response:
       type: object
       required:
@@ -249,24 +251,6 @@ components:
           description: IANA time zone of the user.
           examples:
           - Europe/Berlin
-    error-response:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          - requestId
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            requestId:
-              type: string
     recording-group-item:
       type: object
       required:
@@ -283,50 +267,6 @@ components:
           description: Name of the group.
           examples:
           - Enterprise Sales
-    users-index-response:
-      type: object
-      required:
-      - data
-      - meta
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/user-list-item'
-        meta:
-          type: object
-          required:
-          - hasNext
-          - limit
-          properties:
-            hasNext:
-              type: boolean
-            limit:
-              type: integer
-            nextCursor:
-              type:
-              - string
-              - 'null'
-  responses:
-    bad-request:
-      description: Request validation failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-    unauthorized:
-      description: API key is missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-    too-many-requests:
-      description: Rate limit exceeded.
-      headers:
-        Retry-After:
-          description: Seconds until the next request is allowed.
-          schema:
-            type: integer
   parameters:
     limit:
       name: limit
@@ -361,6 +301,26 @@ components:
           value: mustermann@example.com
       schema:
         type: string
+  responses:
+    bad-request:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    unauthorized:
+      description: API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    too-many-requests:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next request is allowed.
+          schema:
+            type: integer
   securitySchemes:
     bearerAuth:
       type: http

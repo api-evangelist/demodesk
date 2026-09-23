@@ -1,27 +1,6 @@
 generated: '2026-07-18'
 method: searched
 host: https://demodesk.com
-documents:
-- path: /.well-known/oauth-authorization-server
-  status: 200
-  file: demodesk-oauth-authorization-server.json
-  note: RFC 8414 OAuth 2.0 Authorization Server Metadata (backs the MCP server)
-- path: /.well-known/oauth-protected-resource
-  status: 200
-  file: demodesk-oauth-protected-resource.json
-  note: RFC 9728 OAuth 2.0 Protected Resource Metadata for https://demodesk.com/mcp
-- path: /.well-known/security.txt
-  status: 404
-- path: /.well-known/openid-configuration
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
-- path: /.well-known/agent-card.json
-  status: 404
-- path: /.well-known/agent.json
-  status: 404
 rechecked: '2026-08-14'
 additional_hosts:
 - host: https://mcp.demodesk.ai
@@ -53,15 +32,39 @@ additional_hosts:
     status: 200
     served: text/html
     document: false
-    note: >-
-      NOT a security.txt. The trust-center SPA answers 200 with its HTML shell
-      for any path, so this is a soft-200, not a served RFC 9116 document.
-      Recorded as a miss — no SecurityTxt pointer is wired.
+    note: NOT a security.txt. The trust-center SPA answers 200 with its HTML shell for any path, so this
+      is a soft-200, not a served RFC 9116 document. Recorded as a miss — no SecurityTxt pointer is wired.
 x-agent-card:
   found: false
-  note: >-
-    No A2A agent card on any Demodesk host. Both the 0.3+ path
-    (/.well-known/agent-card.json) and the legacy /.well-known/agent.json return
-    404 on demodesk.com, mcp.demodesk.ai and marketplace.demodesk.ai. Per
-    pipeline rule, nothing was written to a2a/ and no AgentCard pointer exists —
-    the agent surface here is MCP, not A2A.
+  note: No A2A agent card on any Demodesk host. Both the 0.3+ path (/.well-known/agent-card.json) and
+    the legacy /.well-known/agent.json return 404 on demodesk.com, mcp.demodesk.ai and marketplace.demodesk.ai.
+    Per pipeline rule, nothing was written to a2a/ and no AgentCard pointer exists — the agent surface
+    here is MCP, not A2A.
+hosts:
+- host: https://demodesk.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: demodesk-oauth-authorization-server.json
+    note: RFC 8414 OAuth 2.0 Authorization Server Metadata (backs the MCP server)
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: demodesk-oauth-protected-resource.json
+    note: RFC 9728 OAuth 2.0 Protected Resource Metadata for https://demodesk.com/mcp
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+x-shape-fix:
+  converted: '2026-08-20'
+  from: documents
+  note: Rewritten into hosts[] -> documents[], the only shape well_known_docs() in score.rb reads. A served
+    .well-known surface recorded in any other shape scores as absent.

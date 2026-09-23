@@ -13,21 +13,15 @@ server:
   url: https://demodesk.com/mcp
   landing: https://mcp.demodesk.ai/
   help: https://help.demodesk.com/en/articles/15080605-demodesk-mcp
-  description: >-
-    Official hosted, read-only MCP server. Exposes Demodesk meeting recordings,
-    transcripts, AI summaries and coaching scorecards to any MCP client. The
-    company runs a dedicated microsite for it at https://mcp.demodesk.ai/ which
-    publishes its own llms.txt — a provider-authored tool list, install matrix
-    and access model. That microsite is the strongest MCP documentation surface
-    in this profile and it is NOT linked from the API reference.
+  description: Official hosted, read-only MCP server. Exposes Demodesk meeting recordings, transcripts,
+    AI summaries and coaching scorecards to any MCP client. The company runs a dedicated microsite for
+    it at https://mcp.demodesk.ai/ which publishes its own llms.txt — a provider-authored tool list, install
+    matrix and access model. That microsite is the strongest MCP documentation surface in this profile
+    and it is NOT linked from the API reference.
   read_only: true
-  read_only_source: >-
-    "The Demodesk MCP is a read-only Model Context Protocol server" —
-    https://mcp.demodesk.ai/llms.txt
-  plan_availability: >-
-    "Included with every Demodesk plan at no extra cost." The pricing page bundles
-    the MCP server from the entry Capture tier (EUR 25/user/month), not as an
-    enterprise add-on. See plans/demodesk-plans-pricing.yml.
+  read_only_source: '"The Demodesk MCP is a read-only Model Context Protocol server" — https://mcp.demodesk.ai/llms.txt'
+  plan_availability: '"Included with every Demodesk plan at no extra cost." The pricing page bundles the
+    MCP server from the entry Capture tier (EUR 25/user/month), not as an enterprise add-on. See plans/demodesk-plans-pricing.yml.'
   authorization:
     type: oauth2
     discovery: https://demodesk.com/.well-known/oauth-protected-resource
@@ -38,38 +32,28 @@ server:
     dynamic_client_registration: https://demodesk.com/oauth/register
     scopes:
     - mcp:tools
-    permissions: >-
-      Permissions inherit from the signed-in Demodesk account. A manual API key
-      is available via Settings > Integrations for clients that cannot do OAuth.
-    revocation: >-
-      Disconnecting the connector in the AI client triggers OAuth revocation on
-      Demodesk's backend immediately.
-    note: >-
-      Anonymous POST to https://demodesk.com/mcp returns HTTP 401 with
-      {"error":{"code":"missing_bearer_token"}} plus a self-describing "mcp"
-      object naming the required scope and both metadata URLs — a well-formed
+    permissions: Permissions inherit from the signed-in Demodesk account. A manual API key is available
+      via Settings > Integrations for clients that cannot do OAuth.
+    revocation: Disconnecting the connector in the AI client triggers OAuth revocation on Demodesk's backend
+      immediately.
+    note: Anonymous POST to https://demodesk.com/mcp returns HTTP 401 with {"error":{"code":"missing_bearer_token"}}
+      plus a self-describing "mcp" object naming the required scope and both metadata URLs — a well-formed
       gate, not a dead endpoint.
 tools:
   status: published
   count_published: 7
   count_declared_in_openapi: 8
   source: https://mcp.demodesk.ai/llms.txt (## Tools)
-  corroborating_source: >-
-    x-mcp extension blocks (toolName, title, description, readOnlyHint,
-    idempotentHint, destructiveHint, openWorldHint, timeoutMs) declared on every
-    v2 operation in openapi/_original/demodesk-v2-openapi.yml
+  corroborating_source: x-mcp extension blocks (toolName, title, description, readOnlyHint, idempotentHint,
+    destructiveHint, openWorldHint, timeoutMs) declared on every v2 operation in openapi/_original/demodesk-v2-openapi.yml
   crosswalk: mcp/demodesk-tool-crosswalk.yml
   live_introspection: gated
-  note: >-
-    Two provider sources, and they do not agree. The MCP microsite's llms.txt
-    lists SEVEN tools; the published v2 OpenAPI carries x-mcp blocks on EIGHT
-    operations. The extra one is `users_list` (listUsers) — declared in the
-    contract, absent from the advertised tool list. Recorded as published:7 /
-    declared:8 rather than silently picking one, because a live `tools/list` is
-    OAuth2-gated and neither source can be confirmed against the running server
-    anonymously. Tool names are provider-declared throughout; an earlier round of
-    this pipeline invented snake_case names and those have been gone since
-    2026-08-13.
+  note: Two provider sources, and they do not agree. The MCP microsite's llms.txt lists SEVEN tools; the
+    published v2 OpenAPI carries x-mcp blocks on EIGHT operations. The extra one is `users_list` (listUsers)
+    — declared in the contract, absent from the advertised tool list. Recorded as published:7 / declared:8
+    rather than silently picking one, because a live `tools/list` is OAuth2-gated and neither source can
+    be confirmed against the running server anonymously. Tool names are provider-declared throughout;
+    an earlier round of this pipeline invented snake_case names and those have been gone since 2026-08-13.
   list:
   - name: users_get_me
     title: Get current user
@@ -115,49 +99,12 @@ tools:
 deployment:
   mode: remote
   endpoint: https://demodesk.com/mcp
-  auth: oauth
   verified: probed
   probe: gated
-  checked: '2026-08-14'
-  source: live tools/list probe + https://mcp.demodesk.ai/llms.txt
-  package: null
-  install: null
-  install_note: >-
-    No stdio package exists — every documented client install is the same remote
-    URL registered with an MCP client. `claude mcp add demodesk --transport http
-    https://demodesk.com/mcp` is a CLI *registration* of a remote endpoint, not a
-    local server; there is nothing to npx and nothing to run on a machine. mode
-    is therefore remote, not both.
-  clients_documented:
-  - client: Claude.ai / Claude Desktop
-    method: connector URL
-    detail: https://claude.ai/customize/connectors then add https://demodesk.com/mcp
-  - client: ChatGPT
-    method: connector URL
-    detail: https://chatgpt.com/#settings/Connectors then add https://demodesk.com/mcp
-  - client: Microsoft 365 Copilot (Copilot Studio)
-    method: MCP tool + OAuth 2.0 dynamic discovery
-  - client: Gemini
-    method: enterprise / Workspace only; admin must enable MCP first
-  - client: Cursor
-    method: '~/.cursor/mcp.json -> { "mcpServers": { "demodesk": { "url": "https://demodesk.com/mcp" } } }'
-  - client: VS Code
-    method: '.vscode/mcp.json -> { "servers": { "demodesk": { "url": "https://demodesk.com/mcp", "type": "http" } } }'
-  - client: Claude Code
-    method: claude mcp add demodesk --transport http https://demodesk.com/mcp
-  - client: Windsurf
-    method: '~/.codeium/windsurf/mcp_config.json -> { "mcpServers": { "demodesk": { "serverUrl": "https://demodesk.com/mcp" } } }'
-  evidence:
-    method: 'POST tools/list (jsonrpc 2.0), anonymous'
-    url: https://demodesk.com/mcp
-    http_status: 401
-    result: >-
-      {"error":{"code":"missing_bearer_token","message":"Bearer token required"}}
-      plus an "mcp" object that self-describes the server, states access requires
-      OAuth 2.0 with scope "mcp:tools", and links both metadata documents.
+  checked: '2026-08-12'
+  source: catalog MCP census
 x-related:
   llms_txt: llms/demodesk-mcp-llms.txt
   llms_full: https://demodesk.com/mcp/llms-full.txt
-  llms_full_note: >-
-    Provider publishes a full landing-page dump; deliberately not committed
-    (*-llms-full.txt is gitignored network-wide).
+  llms_full_note: Provider publishes a full landing-page dump; deliberately not committed (*-llms-full.txt
+    is gitignored network-wide).

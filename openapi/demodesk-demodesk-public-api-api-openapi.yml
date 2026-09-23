@@ -2,43 +2,7 @@ openapi: 3.2.0
 info:
   title: Demodesk Public API
   version: v2
-  description: 'Customer-facing API for external integrations.
-
-
-    We''re currently bringing more capabilities to the v2 API and you should use it whenever possible.
-
-    For some use cases, you may need to use the [v1 API](https://help.demodesk.com/en/articles/8518816-api-reference) instead, which will be discontinued in the future, though.
-
-
-    ## Authentication
-
-
-    All requests require a token passed as a Bearer token in the `Authorization` HTTP header:
-
-
-    ```
-
-    curl -H "Authorization: Bearer YOUR_API_KEY" https://demodesk.com/api/v2/recordings
-
-    ```
-
-
-    Generate an API key in your Demodesk account under *Settings > Integrations > Other*.
-
-    The deprecated `api-key` HTTP header is still accepted for backwards compatibility.
-
-
-    The key inherits the permissions of the user who created it.
-
-    To access resources across your whole company, use the API key of an admin user who is a member of all restricted groups.
-
-
-    ## MCP
-
-
-    AI Agents can use the same capabilities of this API via an MCP server located at `https://demodesk.com/mcp`. The server supports OAuth2 authentication discovery.
-
-    '
+  description: Customer-facing API for external integrations.
   contact:
     email: support@demodesk.com
 servers:
@@ -57,9 +21,7 @@ webhooks:
       description: 'Sent when a demo gets scheduled.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -80,9 +42,7 @@ webhooks:
       description: 'Sent when a demo gets rescheduled.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -103,9 +63,7 @@ webhooks:
       description: 'Sent when a demo gets handed over to another host.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -126,9 +84,7 @@ webhooks:
       description: 'Sent when a demo gets canceled.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -149,9 +105,7 @@ webhooks:
       description: 'Sent when a demo starts.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -172,9 +126,7 @@ webhooks:
       description: 'Sent when a demo ends.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -195,9 +147,7 @@ webhooks:
       description: 'Sent when call notes are updated for a demo.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -218,9 +168,7 @@ webhooks:
       description: 'Sent when event responses of attendees are updated.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -241,9 +189,7 @@ webhooks:
       description: 'Sent when a recording upload finished.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -264,9 +210,7 @@ webhooks:
       description: 'Sent when recording transcription and post-processing are complete.
 
 
-        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.
-
-        '
+        To enable the Webhook API, please email support@demodesk.com with the endpoint urls on your side and which events to activate.'
       requestBody:
         required: true
         content:
@@ -282,7 +226,23 @@ webhooks:
       - Demodesk Public API
 components:
   schemas:
-    webhook-demo-scheduled-payload:
+    webhook-meta-event:
+      type: object
+      required:
+      - action
+      - apiVersion
+      - createdAt
+      properties:
+        action:
+          type: string
+        apiVersion:
+          type: string
+          enum:
+          - v1
+        createdAt:
+          type: string
+          format: date-time
+    webhook-recording-transcription-postprocessed-payload:
       type: object
       required:
       - meta
@@ -301,7 +261,7 @@ components:
                   action:
                     type: string
                     enum:
-                    - demo.scheduled
+                    - recording.transcription_postprocessed
         data:
           type: object
           required:
@@ -314,226 +274,9 @@ components:
             type:
               type: string
               enum:
-              - demos
+              - recordings
             attributes:
-              $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
-    webhook-demo-scheduled-attributes:
-      allOf:
-      - $ref: '#/components/schemas/webhook-demo-base-attributes'
-      - type: object
-        required:
-        - description
-        - startDate
-        - endDate
-        - duration
-        - participantEmail
-        - participantFirstName
-        - participantLastName
-        - participantCompany
-        - bookerEmail
-        - publicCancellationUrl
-        - publicReschedulingUrl
-        properties:
-          description:
-            type:
-            - string
-            - 'null'
-          startDate:
-            type: string
-            format: date-time
-          endDate:
-            type:
-            - string
-            - 'null'
-            format: date-time
-          duration:
-            type: integer
-          participantEmail:
-            type:
-            - string
-            - 'null'
-          participantFirstName:
-            type:
-            - string
-            - 'null'
-          participantLastName:
-            type:
-            - string
-            - 'null'
-          participantCompany:
-            type:
-            - string
-            - 'null'
-          bookerEmail:
-            type:
-            - string
-            - 'null'
-          publicCancellationUrl:
-            type:
-            - string
-            - 'null'
-          publicReschedulingUrl:
-            type:
-            - string
-            - 'null'
-    webhook-demo-event-response-updated-payload:
-      type: object
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          type: object
-          required:
-          - event
-          properties:
-            event:
-              allOf:
-              - $ref: '#/components/schemas/webhook-meta-event'
-              - type: object
-                properties:
-                  action:
-                    type: string
-                    enum:
-                    - demo.event_response_updated
-        data:
-          type: object
-          required:
-          - id
-          - type
-          - attributes
-          properties:
-            id:
-              type: string
-            type:
-              type: string
-              enum:
-              - demos
-            attributes:
-              $ref: '#/components/schemas/webhook-demo-event-response-updated-attributes'
-    webhook-demo-event-response-updated-attributes:
-      allOf:
-      - $ref: '#/components/schemas/webhook-demo-base-attributes'
-      - type: object
-        required:
-        - event
-        properties:
-          event:
-            type: object
-            required:
-            - start
-            - end
-            - attendees
-            properties:
-              start:
-                type: object
-                required:
-                - dateTime
-                properties:
-                  dateTime:
-                    type: string
-                    format: date-time
-              end:
-                type: object
-                required:
-                - dateTime
-                properties:
-                  dateTime:
-                    type: string
-                    format: date-time
-              attendees:
-                type: array
-                items:
-                  type: object
-                  required:
-                  - email
-                  - displayName
-                  - responseStatus
-                  properties:
-                    email:
-                      type: string
-                    displayName:
-                      type:
-                      - string
-                      - 'null'
-                    responseStatus:
-                      type: string
-                      enum:
-                      - none
-                      - needsAction
-                      - declined
-                      - tentative
-                      - accepted
-    webhook-demo-ended-payload:
-      type: object
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          type: object
-          required:
-          - event
-          properties:
-            event:
-              allOf:
-              - $ref: '#/components/schemas/webhook-meta-event'
-              - type: object
-                properties:
-                  action:
-                    type: string
-                    enum:
-                    - demo.ended
-        data:
-          type: object
-          required:
-          - id
-          - type
-          - attributes
-          properties:
-            id:
-              type: string
-            type:
-              type: string
-              enum:
-              - demos
-            attributes:
-              $ref: '#/components/schemas/webhook-demo-ended-attributes'
-    webhook-demo-handovered-payload:
-      type: object
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          type: object
-          required:
-          - event
-          properties:
-            event:
-              allOf:
-              - $ref: '#/components/schemas/webhook-meta-event'
-              - type: object
-                properties:
-                  action:
-                    type: string
-                    enum:
-                    - demo.handovered
-        data:
-          type: object
-          required:
-          - id
-          - type
-          - attributes
-          properties:
-            id:
-              type: string
-            type:
-              type: string
-              enum:
-              - demos
-            attributes:
-              $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
+              $ref: '#/components/schemas/webhook-recording-transcription-postprocessed-attributes'
     webhook-demo-base-attributes:
       type: object
       required:
@@ -677,7 +420,7 @@ components:
             - type: number
             - type: boolean
             - type: 'null'
-    webhook-demo-started-payload:
+    webhook-demo-call-note-updated-payload:
       type: object
       required:
       - meta
@@ -696,7 +439,7 @@ components:
                   action:
                     type: string
                     enum:
-                    - demo.started
+                    - demo.call_note_updated
         data:
           type: object
           required:
@@ -711,51 +454,25 @@ components:
               enum:
               - demos
             attributes:
-              $ref: '#/components/schemas/webhook-demo-base-attributes'
-    webhook-recording-transcription-postprocessed-attributes:
-      allOf:
-      - $ref: '#/components/schemas/webhook-recording-base-attributes'
-      - type: object
-        required:
-        - primaryAiSummaryPlaintext
-        - primaryAiSummaryHtml
-        - latestAiSummaryPlaintext
-        - latestAiSummaryHtml
-        properties:
-          primaryAiSummaryPlaintext:
-            type:
-            - string
-            - 'null'
-          primaryAiSummaryHtml:
-            type:
-            - string
-            - 'null'
-          latestAiSummaryPlaintext:
-            type:
-            - string
-            - 'null'
-          latestAiSummaryHtml:
-            type:
-            - string
-            - 'null'
-    webhook-demo-ended-attributes:
+              $ref: '#/components/schemas/webhook-demo-ended-attributes'
+    webhook-demo-scheduled-attributes:
       allOf:
       - $ref: '#/components/schemas/webhook-demo-base-attributes'
       - type: object
         required:
-        - participantEmail
-        - participantName
+        - description
         - startDate
         - endDate
         - duration
-        - notes
-        - status
+        - participantEmail
+        - participantFirstName
+        - participantLastName
+        - participantCompany
+        - bookerEmail
+        - publicCancellationUrl
+        - publicReschedulingUrl
         properties:
-          participantEmail:
-            type:
-            - string
-            - 'null'
-          participantName:
+          description:
             type:
             - string
             - 'null'
@@ -769,47 +486,34 @@ components:
             format: date-time
           duration:
             type: integer
-          notes:
+          participantEmail:
             type:
             - string
             - 'null'
-          status:
-            type: string
-    webhook-demo-canceled-payload:
-      type: object
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          type: object
-          required:
-          - event
-          properties:
-            event:
-              allOf:
-              - $ref: '#/components/schemas/webhook-meta-event'
-              - type: object
-                properties:
-                  action:
-                    type: string
-                    enum:
-                    - demo.canceled
-        data:
-          type: object
-          required:
-          - id
-          - type
-          - attributes
-          properties:
-            id:
-              type: string
+          participantFirstName:
             type:
-              type: string
-              enum:
-              - demos
-            attributes:
-              $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
+            - string
+            - 'null'
+          participantLastName:
+            type:
+            - string
+            - 'null'
+          participantCompany:
+            type:
+            - string
+            - 'null'
+          bookerEmail:
+            type:
+            - string
+            - 'null'
+          publicCancellationUrl:
+            type:
+            - string
+            - 'null'
+          publicReschedulingUrl:
+            type:
+            - string
+            - 'null'
     webhook-demo-rescheduled-payload:
       type: object
       required:
@@ -845,6 +549,107 @@ components:
               - demos
             attributes:
               $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
+    webhook-demo-started-payload:
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          type: object
+          required:
+          - event
+          properties:
+            event:
+              allOf:
+              - $ref: '#/components/schemas/webhook-meta-event'
+              - type: object
+                properties:
+                  action:
+                    type: string
+                    enum:
+                    - demo.started
+        data:
+          type: object
+          required:
+          - id
+          - type
+          - attributes
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+              enum:
+              - demos
+            attributes:
+              $ref: '#/components/schemas/webhook-demo-base-attributes'
+    webhook-demo-scheduled-payload:
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          type: object
+          required:
+          - event
+          properties:
+            event:
+              allOf:
+              - $ref: '#/components/schemas/webhook-meta-event'
+              - type: object
+                properties:
+                  action:
+                    type: string
+                    enum:
+                    - demo.scheduled
+        data:
+          type: object
+          required:
+          - id
+          - type
+          - attributes
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+              enum:
+              - demos
+            attributes:
+              $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
+    webhook-recording-transcription-postprocessed-attributes:
+      allOf:
+      - $ref: '#/components/schemas/webhook-recording-base-attributes'
+      - type: object
+        required:
+        - primaryAiSummaryPlaintext
+        - primaryAiSummaryHtml
+        - latestAiSummaryPlaintext
+        - latestAiSummaryHtml
+        properties:
+          primaryAiSummaryPlaintext:
+            type:
+            - string
+            - 'null'
+          primaryAiSummaryHtml:
+            type:
+            - string
+            - 'null'
+          latestAiSummaryPlaintext:
+            type:
+            - string
+            - 'null'
+          latestAiSummaryHtml:
+            type:
+            - string
+            - 'null'
+    webhook-crm-id:
+      oneOf:
+      - type: string
+      - type: integer
+      - type: 'null'
     webhook-recording-base-attributes:
       type: object
       required:
@@ -930,97 +735,6 @@ components:
           type:
           - string
           - 'null'
-    webhook-demo-call-note-updated-payload:
-      type: object
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          type: object
-          required:
-          - event
-          properties:
-            event:
-              allOf:
-              - $ref: '#/components/schemas/webhook-meta-event'
-              - type: object
-                properties:
-                  action:
-                    type: string
-                    enum:
-                    - demo.call_note_updated
-        data:
-          type: object
-          required:
-          - id
-          - type
-          - attributes
-          properties:
-            id:
-              type: string
-            type:
-              type: string
-              enum:
-              - demos
-            attributes:
-              $ref: '#/components/schemas/webhook-demo-ended-attributes'
-    webhook-recording-transcription-postprocessed-payload:
-      type: object
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          type: object
-          required:
-          - event
-          properties:
-            event:
-              allOf:
-              - $ref: '#/components/schemas/webhook-meta-event'
-              - type: object
-                properties:
-                  action:
-                    type: string
-                    enum:
-                    - recording.transcription_postprocessed
-        data:
-          type: object
-          required:
-          - id
-          - type
-          - attributes
-          properties:
-            id:
-              type: string
-            type:
-              type: string
-              enum:
-              - recordings
-            attributes:
-              $ref: '#/components/schemas/webhook-recording-transcription-postprocessed-attributes'
-    webhook-meta-event:
-      type: object
-      required:
-      - action
-      - apiVersion
-      - createdAt
-      properties:
-        action:
-          type: string
-        apiVersion:
-          type: string
-          enum:
-          - v1
-        createdAt:
-          type: string
-          format: date-time
-    webhook-crm-id:
-      oneOf:
-      - type: string
-      - type: integer
-      - type: 'null'
     webhook-recording-uploaded-payload:
       type: object
       required:
@@ -1056,6 +770,236 @@ components:
               - recordings
             attributes:
               $ref: '#/components/schemas/webhook-recording-base-attributes'
+    webhook-demo-event-response-updated-attributes:
+      allOf:
+      - $ref: '#/components/schemas/webhook-demo-base-attributes'
+      - type: object
+        required:
+        - event
+        properties:
+          event:
+            type: object
+            required:
+            - start
+            - end
+            - attendees
+            properties:
+              start:
+                type: object
+                required:
+                - dateTime
+                properties:
+                  dateTime:
+                    type: string
+                    format: date-time
+              end:
+                type: object
+                required:
+                - dateTime
+                properties:
+                  dateTime:
+                    type: string
+                    format: date-time
+              attendees:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - email
+                  - displayName
+                  - responseStatus
+                  properties:
+                    email:
+                      type: string
+                    displayName:
+                      type:
+                      - string
+                      - 'null'
+                    responseStatus:
+                      type: string
+                      enum:
+                      - none
+                      - needsAction
+                      - declined
+                      - tentative
+                      - accepted
+    webhook-demo-canceled-payload:
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          type: object
+          required:
+          - event
+          properties:
+            event:
+              allOf:
+              - $ref: '#/components/schemas/webhook-meta-event'
+              - type: object
+                properties:
+                  action:
+                    type: string
+                    enum:
+                    - demo.canceled
+        data:
+          type: object
+          required:
+          - id
+          - type
+          - attributes
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+              enum:
+              - demos
+            attributes:
+              $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
+    webhook-demo-event-response-updated-payload:
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          type: object
+          required:
+          - event
+          properties:
+            event:
+              allOf:
+              - $ref: '#/components/schemas/webhook-meta-event'
+              - type: object
+                properties:
+                  action:
+                    type: string
+                    enum:
+                    - demo.event_response_updated
+        data:
+          type: object
+          required:
+          - id
+          - type
+          - attributes
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+              enum:
+              - demos
+            attributes:
+              $ref: '#/components/schemas/webhook-demo-event-response-updated-attributes'
+    webhook-demo-handovered-payload:
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          type: object
+          required:
+          - event
+          properties:
+            event:
+              allOf:
+              - $ref: '#/components/schemas/webhook-meta-event'
+              - type: object
+                properties:
+                  action:
+                    type: string
+                    enum:
+                    - demo.handovered
+        data:
+          type: object
+          required:
+          - id
+          - type
+          - attributes
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+              enum:
+              - demos
+            attributes:
+              $ref: '#/components/schemas/webhook-demo-scheduled-attributes'
+    webhook-demo-ended-payload:
+      type: object
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          type: object
+          required:
+          - event
+          properties:
+            event:
+              allOf:
+              - $ref: '#/components/schemas/webhook-meta-event'
+              - type: object
+                properties:
+                  action:
+                    type: string
+                    enum:
+                    - demo.ended
+        data:
+          type: object
+          required:
+          - id
+          - type
+          - attributes
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+              enum:
+              - demos
+            attributes:
+              $ref: '#/components/schemas/webhook-demo-ended-attributes'
+    webhook-demo-ended-attributes:
+      allOf:
+      - $ref: '#/components/schemas/webhook-demo-base-attributes'
+      - type: object
+        required:
+        - participantEmail
+        - participantName
+        - startDate
+        - endDate
+        - duration
+        - notes
+        - status
+        properties:
+          participantEmail:
+            type:
+            - string
+            - 'null'
+          participantName:
+            type:
+            - string
+            - 'null'
+          startDate:
+            type: string
+            format: date-time
+          endDate:
+            type:
+            - string
+            - 'null'
+            format: date-time
+          duration:
+            type: integer
+          notes:
+            type:
+            - string
+            - 'null'
+          status:
+            type: string
   securitySchemes:
     bearerAuth:
       type: http

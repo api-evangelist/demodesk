@@ -28,9 +28,11 @@
     "demodesk-v2-openapi.yml: tagged webhooks POST demo.event_response_updated -> Demodesk Public API",
     "demodesk-v2-openapi.yml: tagged webhooks POST recording.uploaded -> Demodesk Public API",
     "demodesk-v2-openapi.yml: tagged webhooks POST recording.transcription_postprocessed -> Demodesk Public API",
-    "demodesk-v2-openapi.yml: declared missing tag: Demodesk Public API"
+    "demodesk-v2-openapi.yml: declared missing tag: Demodesk Public API",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
+    "demodesk-demodesk-public-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "demodesk-externally-recorded-demos-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "demodesk-recordings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "demodesk-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
