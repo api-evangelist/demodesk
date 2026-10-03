@@ -105,6 +105,103 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/current-user-item'
+    current-user-item:
+      type: object
+      required:
+      - id
+      - firstName
+      - lastName
+      - email
+      - role
+      - locale
+      - timeZone
+      - groups
+      properties:
+        id:
+          type: string
+          description: Internal user id.
+          examples:
+          - '12345'
+        firstName:
+          type: string
+          description: First name of the authenticated user.
+          examples:
+          - Max
+        lastName:
+          type: string
+          description: Last name of the authenticated user.
+          examples:
+          - Mustermann
+        email:
+          type: string
+          format: email
+          description: Primary email of the authenticated user.
+          examples:
+          - max@example.com
+        role:
+          type: string
+          description: Role of the authenticated user within the company.
+          enum:
+          - user
+          - manager
+          - company_admin
+        locale:
+          type: string
+          description: Locale of the authenticated user.
+          examples:
+          - en
+        timeZone:
+          type: string
+          description: IANA time zone of the authenticated user.
+          examples:
+          - Europe/Berlin
+        groups:
+          type: array
+          description: Groups the authenticated user belongs to.
+          items:
+            $ref: '#/components/schemas/recording-group-item'
+    error-response:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          - requestId
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+    users-index-response:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/user-list-item'
+        meta:
+          type: object
+          required:
+          - hasNext
+          - limit
+          properties:
+            hasNext:
+              type: boolean
+            limit:
+              type: integer
+            nextCursor:
+              type:
+              - string
+              - 'null'
     recording-group-item:
       type: object
       required:
@@ -170,124 +267,23 @@ components:
           description: IANA time zone of the user.
           examples:
           - Europe/Berlin
-    users-index-response:
-      type: object
-      required:
-      - data
-      - meta
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/user-list-item'
-        meta:
-          type: object
-          required:
-          - hasNext
-          - limit
-          properties:
-            hasNext:
-              type: boolean
-            limit:
-              type: integer
-            nextCursor:
-              type:
-              - string
-              - 'null'
-    error-response:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          - requestId
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            requestId:
-              type: string
-    current-user-item:
-      type: object
-      required:
-      - id
-      - firstName
-      - lastName
-      - email
-      - role
-      - locale
-      - timeZone
-      - groups
-      properties:
-        id:
-          type: string
-          description: Internal user id.
-          examples:
-          - '12345'
-        firstName:
-          type: string
-          description: First name of the authenticated user.
-          examples:
-          - Max
-        lastName:
-          type: string
-          description: Last name of the authenticated user.
-          examples:
-          - Mustermann
-        email:
-          type: string
-          format: email
-          description: Primary email of the authenticated user.
-          examples:
-          - max@example.com
-        role:
-          type: string
-          description: Role of the authenticated user within the company.
-          enum:
-          - user
-          - manager
-          - company_admin
-        locale:
-          type: string
-          description: Locale of the authenticated user.
-          examples:
-          - en
-        timeZone:
-          type: string
-          description: IANA time zone of the authenticated user.
-          examples:
-          - Europe/Berlin
-        groups:
-          type: array
-          description: Groups the authenticated user belongs to.
-          items:
-            $ref: '#/components/schemas/recording-group-item'
-  responses:
-    bad-request:
-      description: Request validation failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-    unauthorized:
-      description: API key is missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error-response'
-    too-many-requests:
-      description: Rate limit exceeded.
-      headers:
-        Retry-After:
-          description: Seconds until the next request is allowed.
-          schema:
-            type: integer
   parameters:
+    search:
+      name: search
+      in: query
+      required: false
+      description: 'Case-insensitive partial search across full name and email.
+
+        '
+      examples:
+        byName:
+          summary: Search by name
+          value: max
+        byEmail:
+          summary: Search by email
+          value: mustermann@example.com
+      schema:
+        type: string
     cursor:
       name: cursor
       in: query
@@ -305,22 +301,26 @@ components:
         minimum: 1
         maximum: 100
         default: 100
-    search:
-      name: search
-      in: query
-      required: false
-      description: 'Case-insensitive partial search across full name and email.
-
-        '
-      examples:
-        byName:
-          summary: Search by name
-          value: max
-        byEmail:
-          summary: Search by email
-          value: mustermann@example.com
-      schema:
-        type: string
+  responses:
+    unauthorized:
+      description: API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
+    too-many-requests:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next request is allowed.
+          schema:
+            type: integer
+    bad-request:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error-response'
   securitySchemes:
     bearerAuth:
       type: http
