@@ -1,0 +1,12 @@
+{
+ "url": "https://demodesk.com/api/docs/v1/swagger.json",
+ "requested_url": "https://demodesk.com/api/docs/v1/swagger.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 6632,
+ "sha256": "3cdb82e6611dc63a64a1df4940c8ccec6f3f822adbe9d0054b653578b3ae319a",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
