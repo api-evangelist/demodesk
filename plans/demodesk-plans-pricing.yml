@@ -89,3 +89,34 @@ x-discrepancy:
     tier, Coaching & AI at EUR 49, and folds free viewers in as a Capture
     feature rather than a standalone plan. Recording both: the pricing page is
     authoritative and the llms.txt has drifted stale.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Capture
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Coaching & AI
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - seat
+    periods: []

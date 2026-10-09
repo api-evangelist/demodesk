@@ -108,3 +108,17 @@ x-related:
   llms_full: https://demodesk.com/mcp/llms-full.txt
   llms_full_note: Provider publishes a full landing-page dump; deliberately not committed (*-llms-full.txt
     is gitignored network-wide).
+rfc9728:
+  endpoint: https://demodesk.com/mcp
+  metadata_url: https://demodesk.com/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://demodesk.com/mcp
+    authorization_servers:
+    - https://demodesk.com
+    scopes_supported:
+    - mcp:tools
+    resource_documentation: https://demodesk.com/mcp
