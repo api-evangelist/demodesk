@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/demodesk/integrations
+- https://n8n.io/integrations/demodesk/
+- https://composio.dev/toolkits/demodesk
+- https://monid.ai/tools/demodesk
+checked:
+- https://composio.dev/toolkits/demodesk
+- https://monid.ai/tools/demodesk
+- https://n8n.io/integrations/demodesk/
+- https://zapier.com/apps/demodesk/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
