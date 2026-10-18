@@ -1,5 +1,5 @@
 generated: '2026-10-12'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/demodesk/integrations
 - https://n8n.io/integrations/demodesk/
@@ -10,7 +10,25 @@ checked:
 - https://monid.ai/tools/demodesk
 - https://n8n.io/integrations/demodesk/
 - https://zapier.com/apps/demodesk/integrations
+- zoom/integrations/zoom-integration-edges.yml
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: Zoom (own)
+  partner: zoom
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.zoom.us/apps/_RtSG1mXSkS3rKZC3HexaQ
+  mirror_of: zoom/integrations/zoom-integration-edges.yml
+  apps:
+  - Demodesk
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Zoom app
 templates: []
