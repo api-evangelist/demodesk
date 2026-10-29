@@ -1,4 +1,4 @@
-# demodesk
+# Demodesk
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,6 +64,161 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-demodesk is a company surfaced as a portfolio company of balderton-capital and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Demodesk is an AI Sales Agent platform for B2B revenue teams, founded in 2018 in Munich, Germany. Four AI agents (Assistant, Coach, Analyst, CRM Concierge) plus a custom AI Agent Builder record and transcribe sales conversations, generate summaries and scorecards, update CRMs (Salesforce, HubSpot, Pipedrive), coach reps, and flag at-risk deals. The company exposes a public REST API (v2, OpenAPI 3.1) for recordings, transcripts, AI summaries, scorecards, and users, authenticated with Bearer API keys, plus a webhook event surface for meeting and recording lifecycle events and an official hosted MCP server (OAuth2) at demodesk.com/mcp. GDPR-native with EU-only data residency (Azure Frankfurt) and ISO 27001:2022 certification.
 
-Backed by: balderton-capital — https://demodesk.com/
+**Areas:** Company · Sales · Artificial Intelligence · Conversation Intelligence · Video Conferencing · CRM · Transcription · Webhook · MCP
+
+## Demodesk on APIs.io
+
+Everything profiled for Demodesk is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/demodesk/](https://apis.io/providers/demodesk/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [Demodesk Externally recorded demos API](https://apis.io/apis/demodesk/demodesk-externally-recorded-demos-api/) — The Externally recorded demos API from Demodesk — 3 operation(s) for externally recorded demos.
+- [Demodesk Recordings API](https://apis.io/apis/demodesk/demodesk-recordings-api/) — Endpoints to discover recordings and fetch related artifacts.
+- [Demodesk Users API](https://apis.io/apis/demodesk/demodesk-users-api/) — Endpoints regarding user management.
+- [Demodesk Public API](https://apis.io/apis/demodesk/demodesk-demodesk-public-api-api/) — The Demodesk Public API API from Demodesk — 0 operation(s) for demodesk public api.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Demodesk Webhooks](https://apis.io/asyncapis/demodesk/demodesk-webhooks-asyncapi/)
+
+#### Event channels (10)
+
+Individual events and webhooks the provider emits.
+
+- [demo.call_note_updated](https://apis.io/channels/demodesk/demo-call-note-updated/)
+- [demo.canceled](https://apis.io/channels/demodesk/demo-canceled/)
+- [demo.ended](https://apis.io/channels/demodesk/demo-ended/)
+- [demo.event_response_updated](https://apis.io/channels/demodesk/demo-event-response-updated/)
+- [demo.handovered](https://apis.io/channels/demodesk/demo-handovered/)
+- [demo.rescheduled](https://apis.io/channels/demodesk/demo-rescheduled/)
+- [demo.scheduled](https://apis.io/channels/demodesk/demo-scheduled/)
+- [demo.started](https://apis.io/channels/demodesk/demo-started/)
+- [recording.transcription_postprocessed](https://apis.io/channels/demodesk/recording-transcription-postprocessed/)
+- [recording.uploaded](https://apis.io/channels/demodesk/recording-uploaded/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [demodesk](https://apis.io/servers/demodesk/demodesk/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [API V1 Externally recorded demos API](https://apis.io/collections/demodesk/open-demodesk-externally-recorded-demos-api/)
+- [API V1 Externally recorded demos Recordings API](https://apis.io/collections/demodesk/open-demodesk-recordings-api/)
+- [API V1 Externally recorded demos Users API](https://apis.io/collections/demodesk/open-demodesk-users-api/)
+
+#### Overlays (2)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Demodesk V1 Overlay](https://apis.io/overlays/demodesk/demodesk-v1-overlay/)
+- [Demodesk V2 Overlay](https://apis.io/overlays/demodesk/demodesk-v2-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Demodesk Authentication](https://apis.io/security/demodesk/demodesk-authentication/)
+- [Demodesk Domain Security](https://apis.io/security/demodesk/demodesk-domain-security/)
+- [Demodesk Trust Center](https://apis.io/security/demodesk/demodesk-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Demodesk Scopes](https://apis.io/scopes/demodesk/demodesk-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Demodesk Plans Pricing](https://apis.io/plans/demodesk/demodesk-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Demodesk Rate Limits](https://apis.io/rate-limits/demodesk/demodesk-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://demodesk.com/)
+- [Documentation](https://help.demodesk.com/en/collections/3177803-api-integrations)
+- [API reference](https://help.demodesk.com/en/articles/8518816-api-reference)
+- [Pricing](https://demodesk.com/pricing)
+- [Sign up](https://demodesk.com/manage/auth/register?seatType=ci)
+- [Support](https://help.demodesk.com)
+- [Blog](https://demodesk.com/blog)
+- [Compliance](https://security.demodesk.com)
+- [Terms of service](https://demodesk.com/legal/terms-of-use)
+- [Privacy policy](https://demodesk.com/legal/privacy-policy)
+- [GitHub](https://github.com/demodesk)
+- [Status](https://status.demodesk.com)
+
+## API Evangelist rating
+
+**Kin Score 57.9** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 59.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 60.5 |
+| Developer ergonomics | 47.0 |
+| Access clarity | 84.2 |
+
+**Agent readiness 56.2** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | verified |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 31.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/demodesk/](https://apis.io/providers/demodesk/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Demodesk: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/demodesk/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
